@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 use Kreait\Firebase\Factory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;//هنا
+
+
+
 
 class VolunteeringController extends Controller
 {
@@ -26,6 +30,20 @@ return $firebase->createDatabase();
     }
     public function store(Request $request)
     {
+        //هنا
+        $validator = Validator::make($request->all(), [
+           'op_name' => 'required',
+            'op_date' => 'required|date|date_format:Y-m-d',
+            'op_time' => 'required',
+            'op_location' => 'required',
+            'op_number' => 'required',
+            'op_link' => 'required|url|regex:/^https:\/\/forms\.gle\/[\w-]+$/',
+        ]);
+    
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
         $this->connect()->getReference('opportunities')->push($request->except(['_token']));
         return redirect()->route('opportunities.index');
     }
@@ -43,7 +61,21 @@ return $firebase->createDatabase();
         ]);
     }
     public function update($id, Request $request)
-    {
+    {//هنا
+        $validator = Validator::make($request->all(), [
+            'op_name' => 'required',
+            'op_date' => 'required|date|date_format:Y-m-d',
+            'op_time' => 'required',
+            'op_location' => 'required',
+            'op_number' => 'required',
+            'op_link' => 'required|url|regex:/^https:\/\/forms\.gle\/[\w-]+$/',
+        ]);
+    
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+
         $this->connect()->getReference('opportunities/' . $id)->update($request->except(['_token', '_method']));
         return redirect()->route('opportunities.index');
     }
