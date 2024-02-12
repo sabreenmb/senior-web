@@ -24,7 +24,7 @@ Route::resource("opportunities","App\Http\Controllers\VolunteeringController");
 Route::resource("main","App\Http\Controllers\LoginController");
 
 Route::get('/', function () {
-    return redirect()->route('main.index');
+    return redirect()->route('clinic.index');
 });
 
 //for post a form 
@@ -66,5 +66,4 @@ Route::post('/login', [LoginController::class,'login']);
 // });
 // Route::get('/opportunities-list', function () {
 //     return redirect()->route('opportunities.index');
-// });
-
+// });
