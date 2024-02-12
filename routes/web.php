@@ -29,7 +29,7 @@ Route::get('/', function () {
 
 //for post a form 
 Route::post('/login', [LoginController::class,'login']);
-
+Route::get('/events/{id}', 'EventsController@show')->name('events.show');
 
 
 
