@@ -30,15 +30,27 @@ return $firebase->createDatabase();
     }
     public function store(Request $request)
     {
-        //هنا
+        $messages = [
+            'op_name.required' => 'اسم الفرصة مطلوب.',
+            'op_date.required' => 'تاريخ الفرصة مطلوب.',
+            'op_date.date' => 'يجب أن يكون التاريخ صالحًا.',
+            'op_date.date_format' => 'يجب أن يكون تنسيق التاريخ Y-m-d.',
+            'op_time.required' => 'وقت الفرصة مطلوب.',
+            'op_location.required' => 'موقع الفرصة مطلوب.',
+            'op_number.required' => 'عدد المتطوعين مطلوب.',
+            'op_number.numeric' => 'يجب أن يكون عدد المتطوعين رقمًا.',
+            'op_link.required' => 'رابط الفرصة مطلوب.',
+            'op_link.url' => 'يجب أن يكون الرابط صالحًا.',
+            'op_link.starts_with' => 'يجب أن يبدأ الرابط بـ http://',
+        ];
         $validator = Validator::make($request->all(), [
            'op_name' => 'required',
             'op_date' => 'required|date|date_format:Y-m-d',
             'op_time' => 'required',
             'op_location' => 'required',
-            'op_number' => 'required',
-            'op_link' => 'required|url|regex:/^https:\/\/forms\.gle\/[\w-]+$/',
-        ]);
+            'op_number' => 'required|numeric',
+            'op_link' => 'required|url|starts_with:http://',
+        ],$messages);
     
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
@@ -61,15 +73,29 @@ return $firebase->createDatabase();
         ]);
     }
     public function update($id, Request $request)
-    {//هنا
+    {
+        $messages = [
+            'op_name.required' => 'اسم الفرصة مطلوب.',
+            'op_date.required' => 'تاريخ الفرصة مطلوب.',
+            'op_date.date' => 'يجب أن يكون التاريخ صالحًا.',
+            'op_date.date_format' => 'يجب أن يكون تنسيق التاريخ Y-m-d.',
+            'op_time.required' => 'وقت الفرصة مطلوب.',
+            'op_location.required' => 'موقع الفرصة مطلوب.',
+            'op_number.required' => 'عدد المتطوعين مطلوب.',
+            'op_number.numeric' => 'يجب أن يكون عدد المتطوعين رقمًا.',
+            'op_link.required' => 'رابط الفرصة مطلوب.',
+            'op_link.url' => 'يجب أن يكون الرابط صالحًا.',
+            'op_link.starts_with' => 'يجب أن يبدأ الرابط بـ http://',
+        ];
+
         $validator = Validator::make($request->all(), [
             'op_name' => 'required',
             'op_date' => 'required|date|date_format:Y-m-d',
             'op_time' => 'required',
             'op_location' => 'required',
-            'op_number' => 'required',
-            'op_link' => 'required|url|regex:/^https:\/\/forms\.gle\/[\w-]+$/',
-        ]);
+            'op_number' => 'required|numeric',
+            'op_link' => 'required|url|starts_with:http://',
+        ],$messages);
     
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();

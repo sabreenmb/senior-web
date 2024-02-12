@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Opeertonity Form</title>
+  <title>clinic form</title>
   <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">   -->
   <link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
@@ -14,11 +14,11 @@
 <div class="container">
   <br /><br />
   @if($id)
-      {{ Form::open(['url'=> route('opportunities.update', ['opportunity'=>$id]), 'method' => 'PUT']) }}
+      {{ Form::open(['url'=> route('clinic.update', ['clinic'=>$id]), 'method' => 'PUT' ])}}
       <h2>Edit opportunity</h2>
   @else
-      {{ Form::open(['url'=> route('opportunities.store')]) }}
-      <h2>اضافة فرصة</h2>
+      {{ Form::open(['url'=> route('clinic.store')]) }}
+      <h2>اضافة عيادة</h2>
   @endif
   
     @if ($errors->any())
@@ -35,35 +35,29 @@
     <table class="table table-bordered">
     <tbody>
     <tr>
-                <td>اسم الفرصة</td>
-                <td>{{ Form::text('op_name', $id ? $opportunity['op_name'] : null, ['class' => 'form-control', 'autocomplete' => 'off']) }}</td>
+                <td>القسم</td>
+                <td>{{ Form::text('cl_department', $id ? $clinic['cl_department'] : null, ['class' => 'form-control', 'autocomplete' => 'off']) }}</td>
+            </tr>
+            <tr>
+                <td>اسم الدكتور</td>
+                <td>{{ Form::text('cl_doctor', $id ? $clinic['cl_doctor'] : null, ['class' => 'form-control', 'autocomplete' => 'off']) }}</td>
             </tr>
             <tr>
                 <td>التاريخ</td>
-                <td>{{ Form::text('op_date', $id ? $opportunity['op_date'] : null, ['class' => 'form-control', 'id' => 'datePicker', 'autocomplete' => 'off', 'placeholder' => 'حدد التاريخ']) }}
+                <td>{{ Form::text('cl_date', $id ? $clinic['cl_date'] : null, ['class' => 'form-control', 'id' => 'datePicker', 'autocomplete' => 'off', 'placeholder' => 'حدد التاريخ']) }}
 </td>
             </tr>
             <tr>
                 <td>الوقت</td>
-                <td>{{ Form::text('op_time', $id ? $opportunity['op_time'] : null, ['class' => 'form-control', 'id' => 'timePicker', 'autocomplete' => 'off', 'placeholder' => 'حدد الوقت']) }}</td>
+                <td>{{ Form::text('cl_time', $id ? $clinic['cl_time'] : null, ['class' => 'form-control','id' => 'timePicker', 'autocomplete' => 'off', 'placeholder' => 'حدد الوقت']) }}</td>
             </tr>
-            <tr>
-                <td>الموقع</td>
-                <td>{{ Form::text('op_location', $id ? $opportunity['op_location'] : null, ['class' => 'form-control', 'autocomplete' => 'off']) }}</td>
-            </tr>
-            <tr>
-                <td>عدد المتطوعين</td>
-                <td>{{ Form::text('op_number', $id ? $opportunity['op_number'] : null, ['class' => 'form-control', 'autocomplete' => 'off']) }}</td>
-            </tr>
-            <tr>
-                <td>رابط نموذج التسجيل </td>
-                <td>{{ Form::text('op_link', $id ? $opportunity['op_link'] : null, ['class' => 'form-control', 'autocomplete' => 'off']) }}</td>
-            </tr>
+            
         </tbody>
-    </table>  
+    </table> 
+    
 
     <button type="submit" class="btn btn-success btn-sm btn-rouneded">حفظ</button>
-    <a href="{{ route('opportunities.index') }}" class="btn btn-danger btn-sm btn-rounded">رجوع</a>
+    <a href="{{ route('clinic.index') }}" class="btn btn-danger btn-sm btn-rounded">رجوع</a>
 
     {{ Form::close() }}
   </div>
