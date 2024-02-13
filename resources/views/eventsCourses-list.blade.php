@@ -49,13 +49,13 @@
               <a class="nav-link mx-2 active" href="#">الدورات</a>
             </li>
             <li class="nav-item">
-            <a href="{{ route('events.show', ['id' => 'workshops']) }}" class="nav-link mx-2">ورش العمل</a>
+            <a href="{{ route('workshops.index') }}" class="nav-link mx-2">ورش العمل</a>
                       </li>
             <li class="nav-item">
-              <a class="nav-link mx-2" href="{{ route('events.show', ['id' => 'conferences']) }}">المؤتمرات</a>
+              <a class="nav-link mx-2" href="{{ route('courses.index') }}">المؤتمرات</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link mx-2" href="{{ route('events.show', ['id' => 'others']) }}">فعاليات اخرى</a>
+              <a class="nav-link mx-2" href="{{ route('other.index') }}">فعاليات اخرى</a>
             </li>
           </ul>
         </div>
@@ -68,18 +68,8 @@
   <br /><br />
 	<h2>الدورات</h2>
 
-    <a href="{{ route('opportunities.create') }}" class="btn btn-info btn-sm btn-rounded float-end btn-lg">اضافة دورة</a>
+    <a href="{{ route('courses.create') }}" class="btn btn-info btn-sm btn-rounded float-end btn-lg">اضافة دورة</a>
     <br /><br />
-    <!-- <div class="dropdown">
-  <button class="btn btn-secondary dropdown-toggle float-end" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    Dropdown button
-  </button>
-  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-    <a class="dropdown-item" href="#">Action</a>
-    <a class="dropdown-item" href="#">Another action</a>
-    <a class="dropdown-item" href="#">Something else here</a>
-  </div>
-</div> -->
 
     <table class="table table-bordered table-hover">
         <thead>
@@ -91,8 +81,27 @@
             <th>رابط نموذج التسجيل</th>
             <th></th>
             <th></th>
-        </thead>
+        </thead> 
 
+        <tbody>
+        @foreach($eventsCourses as $id => $course)
+
+        <tr>
+                <td>{{ $course['course_name'] }}</td>
+                <td>{{ $course['course_date'] }}</td>
+                <td>{{ $course['course_time'] }}</td>
+                <td>{{ $course['course_location'] }}</td>
+                <td>{{ $course['course_presenter'] }}</td>
+                <td>{{ $course['course_link'] }}</td>
+
+                <td><a href="{{ route('courses.edit', ['course' => $id]) }}" class="btn btn-success btn-sm btn-rounded">تعديل</a></td>
+
+                {{ Form::open(['url'=> route('courses.destroy', ['course' => $id]), 'method' => 'DELETE']) }}
+                <td><button type="submit" class="btn btn-danger btn-sm btn-rounded">حذف</button></td>
+                {{ Form::close() }}
+            </tr>
+            @endforeach
+        </tbody>
        
     </table>
   </div>

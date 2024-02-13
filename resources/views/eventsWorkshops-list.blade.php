@@ -46,16 +46,16 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav align-items-center mx-auto">
             <li class="nav-item">
-              <a class="nav-link mx-2 " href="{{ route('events.show', ['id' => 'courses']) }}">الدورات</a>
+              <a class="nav-link mx-2 " href="{{ route('courses.index') }}">الدورات</a>
             </li>
             <li class="nav-item ">
             <a href="#" class="nav-link mx-2 active">ورش العمل</a>
              </li>
             <li class="nav-item">
-              <a class="nav-link mx-2" href="{{ route('events.show', ['id' => 'conferences']) }}">المؤتمرات</a>
+              <a class="nav-link mx-2" href="{{ route('workshops.index') }}">المؤتمرات</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link mx-2" href="{{ route('events.show', ['id' => 'others']) }}">فعاليات اخرى</a>
+              <a class="nav-link mx-2" href="{{ route('other.index') }}">فعاليات اخرى</a>
             </li>
           </ul>
         </div>
@@ -68,7 +68,7 @@
   <br /><br />
 	<h2>ورش العمل</h2>
 
-    <a href="{{ route('opportunities.create') }}" class="btn btn-info btn-sm btn-rounded float-end btn-lg">اضافة دورة</a>
+    <a href="{{ route('workshops.create') }}" class="btn btn-info btn-sm btn-rounded float-end btn-lg">اضافة دورة</a>
     <br /><br />
     <!-- <div class="dropdown">
   <button class="btn btn-secondary dropdown-toggle float-end" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -92,6 +92,27 @@
             <th></th>
             <th></th>
         </thead>
+
+        
+        <tbody>
+        @foreach($eventsWorkshops as $id => $workshop)
+
+        <tr>
+                <td>{{ $workshop['workshop_name'] }}</td>
+                <td>{{ $workshop['workshop_date'] }}</td>
+                <td>{{ $workshop['workshop_time'] }}</td>
+                <td>{{ $workshop['workshop_location'] }}</td>
+                <td>{{ $workshop['workshop_presenter'] }}</td>
+                <td>{{ $workshop['workshop_link'] }}</td>
+
+                <td><a href="{{ route('workshops.edit', ['workshop' => $id]) }}" class="btn btn-success btn-sm btn-rounded">تعديل</a></td>
+
+                {{ Form::open(['url'=> route('workshops.destroy', ['workshop' => $id]), 'method' => 'DELETE']) }}
+                <td><button type="submit" class="btn btn-danger btn-sm btn-rounded">حذف</button></td>
+                {{ Form::close() }}
+            </tr>
+            @endforeach
+        </tbody>
 
        
     </table>

@@ -60,7 +60,7 @@ return $firebase->createDatabase();
     }
     public function edit($id){
         $clinic = $this->connect()->getReference('clinicdb')->getChild($id)->getValue();
-        return view('clinicdb-form')->with([
+        return view('clinic-form')->with([
             'clinic' => $clinic,
             'id' => $id
         ]);

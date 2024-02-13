@@ -4,6 +4,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\VolunteeringController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\CourseController;
+use App\Http\Controllers\WorkshpsController;
+use App\Http\Controllers\OthersController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,19 +21,22 @@ use App\Http\Controllers\HomeController;
 Route::resource("home","App\Http\Controllers\HomeController");
 Route::resource("clinic","App\Http\Controllers\ClinicController");
 Route::resource("offers","App\Http\Controllers\OffersController");
-Route::resource("events","App\Http\Controllers\EventsController");
+Route::resource("courses","App\Http\Controllers\CourseController");
+Route::resource("workshops","App\Http\Controllers\WorkshopsController");
+Route::resource("other","App\Http\Controllers\OthersController");
 
 Route::resource("opportunities","App\Http\Controllers\VolunteeringController");
 Route::resource("main","App\Http\Controllers\LoginController");
 
 Route::get('/', function () {
-    return redirect()->route('clinic.index');
+    return redirect()->route('main.index');
 });
 
 //for post a form 
 Route::post('/login', [LoginController::class,'login']);
-Route::get('/events/{id}', 'EventsController@show')->name('events.show');
-
+// Route::get('/events/{id}', 'EventsController@show')->name('events.show');
+// Route::get('/events/edit', 'EventsController@edit')->name('events.edit');
+// Route::get('/events/destroy', 'EventsController@destroy')->name('events.destroy');
 
 
 
@@ -66,4 +72,5 @@ Route::get('/events/{id}', 'EventsController@show')->name('events.show');
 // });
 // Route::get('/opportunities-list', function () {
 //     return redirect()->route('opportunities.index');
-// });
+// });
+

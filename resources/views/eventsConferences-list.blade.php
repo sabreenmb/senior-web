@@ -46,16 +46,16 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav align-items-center mx-auto">
             <li class="nav-item">
-              <a class="nav-link mx-2" href="{{ route('events.show', ['id' => 'courses']) }}">الدورات</a>
+              <a class="nav-link mx-2" href="{{ route('courses.index') }}">الدورات</a>
             </li>
             <li class="nav-item">
-            <a href="{{ route('events.show', ['id' => 'workshops']) }}" class="nav-link mx-2">ورش العمل</a>
+            <a href="{{ route('workshops.index') }}" class="nav-link mx-2">ورش العمل</a>
                       </li>
             <li class="nav-item">
               <a class="nav-link mx-2 active" href="#">المؤتمرات</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link mx-2" href="{{ route('events.show', ['id' => 'others']) }}">فعاليات اخرى</a>
+              <a class="nav-link mx-2" href="{{ route('other.index') }}">فعاليات اخرى</a>
             </li>
           </ul>
         </div>

@@ -46,13 +46,13 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav align-items-center mx-auto">
             <li class="nav-item">
-              <a class="nav-link mx-2" href="{{ route('events.show', ['id' => 'courses']) }}">الدورات</a>
+              <a class="nav-link mx-2" href="{{ route('courses.index') }}">الدورات</a>
             </li>
             <li class="nav-item">
-            <a href="{{ route('events.show', ['id' => 'workshops']) }}" class="nav-link mx-2">ورش العمل</a>
+            <a href="{{ route('workshops.index') }}" class="nav-link mx-2">ورش العمل</a>
                       </li>
             <li class="nav-item">
-              <a class="nav-link mx-2" href="{{ route('events.show', ['id' => 'conferences']) }}">المؤتمرات</a>
+              <a class="nav-link mx-2" href="{{ route('other.index') }}">المؤتمرات</a>
             </li>
             <li class="nav-item">
               <a class="nav-link mx-2 active" href="#">فعاليات اخرى</a>
@@ -68,32 +68,41 @@
   <br /><br />
 	<h2>فعاليات اخرى</h2>
 
-    <a href="{{ route('opportunities.create') }}" class="btn btn-info btn-sm btn-rounded float-end btn-lg">اضافة دورة</a>
+    <a href="{{ route('other.create') }}" class="btn btn-info btn-sm btn-rounded float-end btn-lg">اضافة دورة</a>
     <br /><br />
-    <!-- <div class="dropdown">
-  <button class="btn btn-secondary dropdown-toggle float-end" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    Dropdown button
-  </button>
-  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-    <a class="dropdown-item" href="#">Action</a>
-    <a class="dropdown-item" href="#">Another action</a>
-    <a class="dropdown-item" href="#">Something else here</a>
-  </div>
-</div> -->
-
+ 
     <table class="table table-bordered table-hover">
         <thead>
             <th>العنوان</th>
             <th>التاريخ</th>
             <th>الوقت</th>
             <th>الموقع</th>
-            <th>مقدم الدورة</th>
+            <th>المقدم</th>
             <th>رابط نموذج التسجيل</th>
             <th></th>
             <th></th>
         </thead>
 
        
+        <tbody>
+        @foreach($eventsOthers as $id => $OEvent)
+
+        <tr>
+        <td>{{ $OEvent['OEvent_name'] }}</td>
+                <td>{{ $OEvent['OEvent_date'] }}</td>
+                <td>{{ $OEvent['OEvent_time'] }}</td>
+                <td>{{ $OEvent['OEvent_location'] }}</td>
+                <td>{{ $OEvent['OEvent_presenter'] }}</td>
+                <td>{{ $OEvent['OEvent_link'] }}</td>
+
+                <td><a href="{{ route('other.edit', ['other' => $id]) }}" class="btn btn-success btn-sm btn-rounded">تعديل</a></td>
+
+                {{ Form::open(['url'=> route('other.destroy', ['other' => $id]), 'method' => 'DELETE']) }}
+                <td><button type="submit" class="btn btn-danger btn-sm btn-rounded">حذف</button></td>
+                {{ Form::close() }}
+            </tr>
+            @endforeach
+        </tbody>
     </table>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
