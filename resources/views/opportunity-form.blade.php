@@ -18,7 +18,7 @@
       <h2>Edit opportunity</h2>
   @else
       {{ Form::open(['url'=> route('opportunities.store')]) }}
-      <h2>اضافة فرصة</h2>
+      <h2>اضافة فرصة تطوعية</h2>
   @endif
   
     @if ($errors->any())
@@ -35,7 +35,7 @@
     <table class="table table-bordered">
     <tbody>
     <tr>
-                <td>اسم الفرصة</td>
+                <td>عنوان الفرصة التطوعية</td>
                 <td>{{ Form::text('op_name', $id ? $opportunity['op_name'] : null, ['class' => 'form-control', 'autocomplete' => 'off']) }}</td>
             </tr>
             <tr>
@@ -45,7 +45,7 @@
             </tr>
             <tr>
                 <td>الوقت</td>
-                <td>{{ Form::text('op_time', $id ? $opportunity['op_time'] : null, ['class' => 'form-control', 'id' => 'timePicker', 'autocomplete' => 'off', 'placeholder' => 'حدد الوقت']) }}</td>
+                <td>{{ Form::text('op_time', $id ? $opportunity['op_time'] : null, ['class' => 'form-control', 'id' => 'timePicker', 'autocomplete' => 'off', 'placeholder' => 'حدد الوقت (24 ساعة)']) }}</td>
             </tr>
             <tr>
                 <td>الموقع</td>
@@ -83,8 +83,8 @@ flatpickr("#timePicker", {
     locale: 'ar',
     enableTime: true,
     noCalendar: true,
-    dateFormat: "h:i K",
-    time_24hr: false,
+    dateFormat: "H:i",
+    time_24hr: true,
     minuteIncrement: 1,
   });
 });

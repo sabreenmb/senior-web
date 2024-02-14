@@ -19,7 +19,7 @@
 
     <table class="table table-bordered table-hover">
         <thead>
-            <th>اسم الفرصة</th>
+            <th>عنوان الفرصة التطوعية</th>
             <th>التاريخ</th>
             <th>الوقت</th>
             <th>الموقع</th>

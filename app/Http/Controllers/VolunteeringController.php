@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 use Kreait\Firebase\Factory;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;//هنا
+use Illuminate\Support\Facades\Validator;
 
 class VolunteeringController extends Controller
 {
@@ -28,15 +28,15 @@ return $firebase->createDatabase();
     public function store(Request $request)
     {
         $messages = [
-            'op_name.required' => 'اسم الفرصة مطلوب.',
-            'op_date.required' => 'تاريخ الفرصة مطلوب.',
+            'op_name.required' => 'عنوان الفرصة التطوعية مطلوب.',
+            'op_date.required' => 'تاريخ الفرصة التطوعية مطلوب.',
             'op_date.date' => 'يجب أن يكون التاريخ صالحًا.',
             'op_date.date_format' => 'يجب أن يكون تنسيق التاريخ Y-m-d.',
-            'op_time.required' => 'وقت الفرصة مطلوب.',
-            'op_location.required' => 'موقع الفرصة مطلوب.',
+            'op_time.required' => 'وقت الفرصة التطوعية مطلوب.',
+            'op_location.required' => 'موقع الفرصة التطوعية مطلوب.',
             'op_number.required' => 'عدد المتطوعين مطلوب.',
             'op_number.numeric' => 'يجب أن يكون عدد المتطوعين رقمًا.',
-            'op_link.required' => 'رابط الفرصة مطلوب.',
+            'op_link.required' => 'رابط الفرصة التطوعية مطلوب.',
             'op_link.url' => 'يجب أن يكون الرابط صالحًا.',
             'op_link.starts_with' => 'يجب أن يبدأ الرابط بـ http://',
         ];
@@ -72,15 +72,15 @@ return $firebase->createDatabase();
     public function update($id, Request $request)
     {
         $messages = [
-            'op_name.required' => 'اسم الفرصة مطلوب.',
-            'op_date.required' => 'تاريخ الفرصة مطلوب.',
+            'op_name.required' => 'عنوان الفرصة التطوعية مطلوب.',
+            'op_date.required' => 'تاريخ الفرصة التطوعية مطلوب.',
             'op_date.date' => 'يجب أن يكون التاريخ صالحًا.',
             'op_date.date_format' => 'يجب أن يكون تنسيق التاريخ Y-m-d.',
-            'op_time.required' => 'وقت الفرصة مطلوب.',
-            'op_location.required' => 'موقع الفرصة مطلوب.',
+            'op_time.required' => 'وقت الفرصة التطوعية مطلوب.',
+            'op_location.required' => 'موقع الفرصة التطوعية مطلوب.',
             'op_number.required' => 'عدد المتطوعين مطلوب.',
             'op_number.numeric' => 'يجب أن يكون عدد المتطوعين رقمًا.',
-            'op_link.required' => 'رابط الفرصة مطلوب.',
+            'op_link.required' => 'رابط الفرصة التطوعية مطلوب.',
             'op_link.url' => 'يجب أن يكون الرابط صالحًا.',
             'op_link.starts_with' => 'يجب أن يبدأ الرابط بـ http://',
         ];
