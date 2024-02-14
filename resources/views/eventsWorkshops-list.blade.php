@@ -52,7 +52,7 @@
             <a href="#" class="nav-link mx-2 active">ورش العمل</a>
              </li>
             <li class="nav-item">
-              <a class="nav-link mx-2" href="{{ route('workshops.index') }}">المؤتمرات</a>
+              <a class="nav-link mx-2" href="{{ route('conferences.index') }}">المؤتمرات</a>
             </li>
             <li class="nav-item">
               <a class="nav-link mx-2" href="{{ route('other.index') }}">فعاليات اخرى</a>

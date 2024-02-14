@@ -18,12 +18,13 @@ use App\Http\Controllers\OthersController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Route::resource("home","App\Http\Controllers\HomeController");
+// Route::resource("home","App\Http\Controllers\HomeController");
 Route::resource("clinic","App\Http\Controllers\ClinicController");
 Route::resource("offers","App\Http\Controllers\OffersController");
 Route::resource("courses","App\Http\Controllers\CourseController");
 Route::resource("workshops","App\Http\Controllers\WorkshopsController");
 Route::resource("other","App\Http\Controllers\OthersController");
+Route::resource("conferences","App\Http\Controllers\ConferencesController");
 
 Route::resource("opportunities","App\Http\Controllers\VolunteeringController");
 Route::resource("main","App\Http\Controllers\LoginController");

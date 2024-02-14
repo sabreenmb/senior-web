@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Kreait\Firebase\Factory;
 use Illuminate\Support\Facades\Validator;//ه
-class OthersController extends Controller
+class ConferencesController extends Controller
 {
     private $firebase;
     public function connect()
@@ -19,10 +19,10 @@ class OthersController extends Controller
     }
     public function index()
     {
-        $eventsOthersDB = $this->connect()->getReference('eventsOthersDB')->getSnapshot()->getValue();
-        return view('eventsOthers-list')
+        $eventsConferencesDB = $this->connect()->getReference('eventsConferencesDB')->getSnapshot()->getValue();
+        return view('eventsConferences-list')
         ->with([
-            'eventsOthers' => $eventsOthersDB
+            'eventsConferences' => $eventsConferencesDB
 
         ]);
     }
@@ -30,22 +30,22 @@ class OthersController extends Controller
     public function store(Request $request)
     {
         $messages = [
-            'OEvent_name.required' => 'عنوان الفعالية مطلوب',
-            'OEvent_date.required' => 'تاريخ الفعالية مطلوب.',
-            'OEvent_date.date' => 'يجب أن يكون التاريخ صالحًا.',
-            'OEvent_date.date_format' => 'يجب أن يكون تنسيق التاريخ Y-m-d.',
+            'conference_name.required' => 'عنوان الفعالية مطلوب',
+            'conference_date.required' => 'تاريخ الفعالية مطلوب.',
+            'conference_date.date' => 'يجب أن يكون التاريخ صالحًا.',
+            'conference_date.date_format' => 'يجب أن يكون تنسيق التاريخ Y-m-d.',
             // 'course_time.required' => 'وقت الدورة مطلوب.',
-            'OEvent_location.required' => 'موقع الفعالية مطلوب.',
+            'conference_location.required' => 'موقع الفعالية مطلوب.',
             // 'course_presenter.required' => 'اسم مقدم الدورة مطلوب.',
             // 'course_link.required' => 'رابط التسجيل مطلوب.',
             // 'course_link.url' => 'يجب أن يكون الرابط صالحًا.',
             // 'course_link.starts_with' => 'يجب أن يبدأ الرابط بـ http://',
         ];
         $validator = Validator::make($request->all(), [
-            'OEvent_name' => 'required',
-             'OEvent_date' => 'required|date|date_format:Y-m-d',
+            'conference_name' => 'required',
+             'conference_date' => 'required|date|date_format:Y-m-d',
             //  'OEvent_time' => 'required',
-             'OEvent_location' => 'required',
+             'conference_location' => 'required',
             //  'OEvent_presenter' => 'required',
             //  'OEvent_link' => 'required|url|starts_with:http://',
          ],$messages);
@@ -54,40 +54,40 @@ class OthersController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
       
-        $this->connect()->getReference('eventsOthersDB')->push($request->except(['_token']));
-        return redirect()->route('other.index');
+        $this->connect()->getReference('eventsConferencesDB')->push($request->except(['_token']));
+        return redirect()->route('conferences.index');
     }
     public function create(){
-        return view('eventsOthers-form')->with([
+        return view('eventsConference-form')->with([
             'id'=>null
         ]);
     }
     public function edit($id){
-        $OEvent = $this->connect()->getReference('eventsOthersDB')->getChild($id)->getValue();
-        return view('eventsOthers-form')->with([
-            'other' => $OEvent,
+        $conference = $this->connect()->getReference('eventsConferencesDB')->getChild($id)->getValue();
+        return view('eventsConference-form')->with([
+            'conference' => $conference,
             'id' => $id
         ]);
     }
     public function update($id, Request $request)
     {
         $messages = [
-            'OEvent_name.required' => 'عنوان الفعالية مطلوب',
-            'OEvent_date.required' => 'تاريخ الفعالية مطلوب.',
-            'OEvent_date.date' => 'يجب أن يكون التاريخ صالحًا.',
-            'OEvent_date.date_format' => 'يجب أن يكون تنسيق التاريخ Y-m-d.',
-            // 'course_time.required' => 'وقت الدورة مطلوب.',
-            'OEvent_location.required' => 'موقع الفعالية مطلوب.',
+            'conference_name.required' => 'عنوان الفعالية مطلوب',
+            'conference_date.required' => 'تاريخ الفعالية مطلوب.',
+            'conference_date.date' => 'يجب أن يكون التاريخ صالحًا.',
+            'conference_date.date_format' => 'يجب أن يكون تنسيق التاريخ Y-m-d.',
+            'conference_time.required' => 'وقت الدورة مطلوب.',
+            'conference_location.required' => 'موقع الفعالية مطلوب.',
             // 'course_presenter.required' => 'اسم مقدم الدورة مطلوب.',
             // 'course_link.required' => 'رابط التسجيل مطلوب.',
             // 'course_link.url' => 'يجب أن يكون الرابط صالحًا.',
             // 'course_link.starts_with' => 'يجب أن يبدأ الرابط بـ http://',
         ];
         $validator = Validator::make($request->all(), [
-            'OEvent_name' => 'required',
-             'OEvent_date' => 'required|date|date_format:Y-m-d',
-            //  'OEvent_time' => 'required',
-             'OEvent_location' => 'required',
+            'conference_name' => 'required',
+             'conference_date' => 'required|date|date_format:Y-m-d',
+             'conference_time' => 'required',
+             'conference_location' => 'required',
             //  'OEvent_presenter' => 'required',
             //  'OEvent_link' => 'required|url|starts_with:http://',
          ],$messages);
@@ -96,11 +96,11 @@ class OthersController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
       
-        $this->connect()->getReference('eventsOthersDB')->push($request->except(['_token']));
-        return redirect()->route('other.index');
+        $this->connect()->getReference('eventsConferencesDB')->push($request->except(['_token']));
+        return redirect()->route('conferences.index');
     }
     public function destroy($id){
-        $this->connect()->getReference('eventsOthersDB/' . $id)->remove();
+        $this->connect()->getReference('eventsConferencesDB/' . $id)->remove();
         return back();
     }
 

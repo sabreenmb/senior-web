@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Kreait\Laravel\Firebase\Facades\Firebase;
+use Illuminate\Support\Facades\Validator;//ه
+
 // use Validator;
 use Session;
 
@@ -14,26 +16,6 @@ class LoginController extends Controller
         return view("login");
     }
 
-
-
-    // public function checkLogin(Request $request) {
-    //  $$this->validate($request,[
-    //                 "email"=> "required|email",
-    //                 "password"=> "required|min:3",
-    //                 ]);
-    //     $user_data=array(
-    //         "email"=> $request->get('email'),
-    //         'password'=> $request->get('password'),
-    //     );
-
-    //     if(Auth::attempt($user_data)) {
-    //         return redirect('main/successlogin');
-    //     }   else {   
-    //         return back()->with('error','unathurised user');
-        
-    //     }
-
-    // }
     public function successlogin() {
         return redirect()->route('opportunities.index');
     }
@@ -43,29 +25,42 @@ class LoginController extends Controller
         Auth::logout();
 
         //redirect login page
-        return redirect('main');
+        return redirect()->route('main.index');
     }
     public function login(Request $request){
-        //validate login from form 
-        $validator= $request->validate([
-            "email"=> "required|email",
-            "password"=> "required|min:3",
-            ]);
+        $messages = [
+            'email.required' => 'حقل الرقم الجامعي مطلوب.',
+            'email.regex' => 'الرقم الجامعي غير صالح.',
+     
+            'password.required' => 'حقل كلمة المرور مطلوب.',
+        ];
+        $validator = Validator::make($request->all(), [
+            "email"=> "required|regex:/^\d{7}$/",
+            "password"=> "required",
+         ],$messages);
+    
+         if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+            
 
             try{
-                // if(Auth::attempt(["email"=> $request->email], $request->password)){
                 $firebaseAuth=Firebase::auth();
-                $signInResult=$firebaseAuth->signInWithEmailAndPassword($request->email, $request->password);
+                
+                $signInResult=$firebaseAuth->signInWithEmailAndPassword($request->email .'@uj.edu.sa', $request->password);
                 //get user name
                 $user=$signInResult->data();
                 //return the home view with user's name 
+                // return redirect()->route('home')->with([
+                //     'user' => $user["email"]
+        
+                // ]);;
+
                 return view('home', ['user'=>$user["email"]]);
-                // }
-                // Session::flash('error', 'login faild. please try again.');
 
             }catch(\Exception $e){
-                Session::flash('error', 'login faild. please try again.');
-                //  return back()->with('error','unathurised user');
+                Session::flash('error', 'الرقم الجامعي او كلمة المرور غير صحيحة.');
                  return back();
 
             }

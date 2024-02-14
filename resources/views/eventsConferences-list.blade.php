@@ -68,18 +68,8 @@
   <br /><br />
 	<h2>المؤتمرات</h2>
 
-    <a href="{{ route('opportunities.create') }}" class="btn btn-info btn-sm btn-rounded float-end btn-lg">اضافة دورة</a>
+    <a href="{{ route('conferences.create') }}" class="btn btn-info btn-sm btn-rounded float-end btn-lg">اضافة دورة</a>
     <br /><br />
-    <!-- <div class="dropdown">
-  <button class="btn btn-secondary dropdown-toggle float-end" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    Dropdown button
-  </button>
-  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-    <a class="dropdown-item" href="#">Action</a>
-    <a class="dropdown-item" href="#">Another action</a>
-    <a class="dropdown-item" href="#">Something else here</a>
-  </div>
-</div> -->
 
     <table class="table table-bordered table-hover">
         <thead>
@@ -87,12 +77,29 @@
             <th>التاريخ</th>
             <th>الوقت</th>
             <th>الموقع</th>
-            <th>مقدم الدورة</th>
             <th>رابط نموذج التسجيل</th>
             <th></th>
             <th></th>
         </thead>
+   
+        <tbody>
+        @foreach($eventsConferences as $id => $conference)
 
+        <tr>
+        <td>{{ $conference['conference_name'] }}</td>
+                <td>{{ $conference['conference_date'] }}</td>
+                <td>{{ $conference['conference_time'] }}</td>
+                <td>{{ $conference['conference_location'] }}</td>
+                <td>{{ $conference['conference_link'] }}</td>
+
+                <td><a href="{{ route('conferences.edit', ['conference' => $id]) }}" class="btn btn-success btn-sm btn-rounded">تعديل</a></td>
+
+                {{ Form::open(['url'=> route('conferences.destroy', ['conference' => $id]), 'method' => 'DELETE']) }}
+                <td><button type="submit" class="btn btn-danger btn-sm btn-rounded">حذف</button></td>
+                {{ Form::close() }}
+            </tr>
+            @endforeach
+        </tbody>
        
     </table>
   </div>
