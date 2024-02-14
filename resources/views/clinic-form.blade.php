@@ -49,11 +49,11 @@
         ], $id ? $clinic['cl_branch'] : null, ['class' => 'form-control', 'placeholder' => 'اختر الفرع']) }}
     </td>           </tr>
     <tr>
-                <td>القسم</td>
+                <td>التخصص</td>
                 <td>{{ Form::text('cl_department', $id ? $clinic['cl_department'] : null, ['class' => 'form-control', 'autocomplete' => 'off']) }}</td>
             </tr>
             <tr>
-                <td>اسم الدكتور</td>
+                <td>اسم الطبيب</td>
                 <td>{{ Form::text('cl_doctor', $id ? $clinic['cl_doctor'] : null, ['class' => 'form-control', 'autocomplete' => 'off']) }}</td>
             </tr>
             <tr>

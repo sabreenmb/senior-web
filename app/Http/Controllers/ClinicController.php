@@ -33,7 +33,7 @@ return $firebase->createDatabase();
     {
         $messages = [
             'cl_branch.required' => 'حقل الفرع مطلوب.',
-            'cl_department.required' => 'حقل القسم مطلوب.',
+            'cl_department.required' => 'حقل التخصص مطلوب.',
             'cl_doctor.required' => 'حقل اسم الطبيب مطلوب.',
             'cl_date.required' => 'حقل التاريخ مطلوب.',
           'cl_start_time.required' => 'حقل وقت البدء مطلوب.',
@@ -87,7 +87,7 @@ return $firebase->createDatabase();
     {
         $messages = [
             'cl_branch.required' => 'حقل الفرع مطلوب.',
-            'cl_department.required' => 'حقل القسم مطلوب.',
+            'cl_department.required' => 'حقل التخصص مطلوب.',
             'cl_doctor.required' => 'حقل اسم الطبيب مطلوب.',
             'cl_date.required' => 'حقل التاريخ مطلوب.',
             'cl_start_time.required' => 'حقل وقت البدء مطلوب.',

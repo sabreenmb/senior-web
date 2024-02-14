@@ -18,7 +18,7 @@
   </head>
   <body>
     <!-- Navbar -->
-<nav class="navbar navbar-expand-lg fixed-top bg-light navbar-light">
+<nav class="navbar navbar-expand-lg fixed-top bg-white navbar-light">
     <button
     class="navbar-toggler"
     type="button"
