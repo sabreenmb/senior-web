@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>ClinicList</title>
+  <title>Clinic List</title>
   <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">   -->
   <link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
@@ -19,10 +19,12 @@
 
     <table class="table table-bordered table-hover">
         <thead>
+            <th>الفرع</th>
             <th>القسم</th>
             <th>اسم الدكتور</th>
             <th>التاريخ</th>
-            <th>الوقت</th>
+            <th>بداية الوقت</th>
+            <th>نهاية الوقت</th>
             <th></th>
             <th></th>
         </thead>
@@ -31,10 +33,13 @@
         @foreach($clinicdb as $id => $clinic)
 
         <tr>
+               <td>{{ $clinic['cl_branch'] }}</td>
                 <td>{{ $clinic['cl_department'] }}</td>
                 <td>{{ $clinic['cl_doctor'] }}</td>
                 <td>{{ $clinic['cl_date'] }}</td>
-                <td>{{ $clinic['cl_time'] }}</td>
+                <td>{{ $clinic['cl_start_time'] }}</td>
+                <td>{{ $clinic['cl_end_time'] }}</td>
+
 
                 <td><a href="{{ route('clinic.edit', ['clinic' => $id]) }}" class="btn btn-success btn-sm btn-rounded">تعديل</a></td>
 

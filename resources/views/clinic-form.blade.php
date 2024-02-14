@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>clinic form</title>
+  <title>Clinic form</title>
   <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">   -->
   <link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
@@ -15,7 +15,7 @@
   <br /><br />
   @if($id)
       {{ Form::open(['url'=> route('clinic.update', ['clinic'=>$id]), 'method' => 'PUT' ])}}
-      <h2>Edit opportunity</h2>
+      <h2>تعديل بيانات العيادة</h2>
   @else
       {{ Form::open(['url'=> route('clinic.store')]) }}
       <h2>اضافة عيادة</h2>
@@ -35,6 +35,20 @@
     <table class="table table-bordered">
     <tbody>
     <tr>
+                <td>الفرع</td>
+                <td>
+        {{ Form::select('cl_branch', [
+            'المقر الرئيسي' => 'المقر الرئيسي',
+            'الفيصلية' => 'الفيصلية',
+            'الفيصلية مبنى 17' => 'الفيصلية مبنى 17',
+            'الكامل' => 'الكامل',
+            'خليص' => 'خليص',
+            'كلية التربية' => 'كلية التربية',
+            'الكليات الصحية' => 'الكليات الصحية',
+            'كلية التصاميم والفنون' => 'كلية التصاميم والفنون'
+        ], $id ? $clinic['cl_branch'] : null, ['class' => 'form-control', 'placeholder' => 'اختر الفرع']) }}
+    </td>           </tr>
+    <tr>
                 <td>القسم</td>
                 <td>{{ Form::text('cl_department', $id ? $clinic['cl_department'] : null, ['class' => 'form-control', 'autocomplete' => 'off']) }}</td>
             </tr>
@@ -48,9 +62,16 @@
 </td>
             </tr>
             <tr>
-                <td>الوقت</td>
-                <td>{{ Form::text('cl_time', $id ? $clinic['cl_time'] : null, ['class' => 'form-control','id' => 'timePicker', 'autocomplete' => 'off', 'placeholder' => 'حدد الوقت']) }}</td>
-            </tr>
+    <td>وقت البداية</td>
+    <td>{{ Form::text('cl_start_time', $id ? $clinic['cl_start_time'] : null, ['class' => 'form-control', 'id' => 'startTimePicker', 'autocomplete' => 'off', 'placeholder' => 'حدد وقت البداية (24 ساعة)']) }}</td>
+</tr>
+<tr>
+    <td>وقت النهاية</td>
+    <td>{{ Form::text('cl_end_time', $id ? $clinic['cl_end_time'] : null, ['class' => 'form-control', 'id' => 'endTimePicker', 'autocomplete' => 'off', 'placeholder' => 'حدد وقت النهاية (24 ساعة)']) }}
+    </td>
+</tr>
+          
+
             
         </tbody>
     </table> 
@@ -65,6 +86,7 @@
   <script src="https://npmcdn.com/flatpickr/dist/l10n/ar.js"></script>
   <script>
 document.addEventListener('DOMContentLoaded', function() {
+ // var endTimePicker;
   flatpickr("#datePicker", {
     locale: 'ar',
     altInput: true,
@@ -73,15 +95,37 @@ document.addEventListener('DOMContentLoaded', function() {
     minDate: "today",
   });
 
-flatpickr("#timePicker", {
-    locale: 'ar',
-    enableTime: true,
-    noCalendar: true,
-    dateFormat: "h:i K",
-    time_24hr: false,
-    minuteIncrement: 1,
-  });
+   flatpickr("#startTimePicker", {
+        enableTime: true,
+        noCalendar: true,
+        locale: 'ar',
+        time_24hr: true,
+        dateFormat: "H:i",
+        minTime: "08:00",
+        maxTime: "15:00",
+    onChange: function(selectedDates, dateStr, instance) {
+      var startTime = selectedDates[0];
+      if (endTimePicker && startTime) {
+        var minEndTime = new Date(startTime.getTime());
+        minEndTime.setMinutes(minEndTime.getMinutes() + 30);
+        endTimePicker.set('minTime', minEndTime.getHours() + ":" + minEndTime.getMinutes());
+        endTimePicker.set('minDate', startTime); 
+      }
+    },
+    });
+
+    flatpickr("#endTimePicker", {
+        enableTime: true,
+        noCalendar: true,
+        dateFormat: "H:i",
+        locale: 'ar',
+        time_24hr: true,
+        minTime: "08:00",
+    onChange: function(selectedDates, dateStr, instance) {
+    },
+    });
 });
+
 </script>
  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
 </body>
