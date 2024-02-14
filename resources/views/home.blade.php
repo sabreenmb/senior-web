@@ -107,7 +107,7 @@
                 </a>
             </div>
             <div class="card">
-                <a href="{{ route('events.index') }}" class="button">
+                <a href="{{ route('courses.index') }}" class="button">
                     الفعاليات
                 </a>
             </div>

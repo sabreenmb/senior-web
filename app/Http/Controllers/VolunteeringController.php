@@ -5,9 +5,6 @@ use Kreait\Firebase\Factory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
-
-
-
 class VolunteeringController extends Controller
 {
     private $firebase;
