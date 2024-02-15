@@ -45,7 +45,7 @@
             </tr>
             <tr>
                 <td>الوقت</td>
-                <td>{{ Form::text('op_time', $id ? $opportunity['op_time'] : null, ['class' => 'form-control', 'id' => 'timePicker', 'autocomplete' => 'off', 'placeholder' => 'حدد الوقت (24 ساعة)']) }}</td>
+                <td>{{ Form::text('op_time', $id ? $opportunity['op_time'] : null, ['class' => 'form-control', 'id' => 'timePicker', 'autocomplete' => 'off', 'placeholder' => '24:00']) }}</td>
             </tr>
             <tr>
                 <td>الموقع</td>

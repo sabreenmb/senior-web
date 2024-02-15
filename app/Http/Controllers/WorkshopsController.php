@@ -39,7 +39,6 @@ class WorkshopsController extends Controller
             'workshop_presenter.required' => 'اسم مقدم الورشة مطلوب.',
             'workshop_link.required' => 'رابط التسجيل مطلوب.',
             'workshop_link.url' => 'يجب أن يكون الرابط صالحًا.',
-            'workshop_link.starts_with' => 'يجب أن يبدأ الرابط بـ http://',
         ];
         $validator = Validator::make($request->all(), [
             'workshop_name' => 'required',
@@ -47,7 +46,7 @@ class WorkshopsController extends Controller
              'workshop_time' => 'required',
              'workshop_location' => 'required',
              'workshop_presenter' => 'required',
-             'workshop_link' => 'required|url|starts_with:http://',
+             'workshop_link' => 'required|url',
          ],$messages);
     
          if ($validator->fails()) {
@@ -82,7 +81,6 @@ class WorkshopsController extends Controller
             'workshop_presenter.required' => 'اسم مقدم الورشة مطلوب.',
             'workshop_link.required' => 'رابط التسجيل مطلوب.',
             'workshop_link.url' => 'يجب أن يكون الرابط صالحًا.',
-            'workshop_link.starts_with' => 'يجب أن يبدأ الرابط بـ http://',
         ];
         $validator = Validator::make($request->all(), [
             'workshop_name' => 'required',
@@ -90,7 +88,7 @@ class WorkshopsController extends Controller
              'workshop_time' => 'required',
              'workshop_location' => 'required',
              'workshop_presenter' => 'required',
-             'workshop_link' => 'required|url|starts_with:http://',
+             'workshop_link' => 'required|url',
          ],$messages);
     
          if ($validator->fails()) {

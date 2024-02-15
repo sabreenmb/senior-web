@@ -45,7 +45,7 @@
             </tr>
             <tr>
                 <td>الوقت</td>
-                <td>{{ Form::text('conference_time', $id ? $conference['conference_time'] : null, ['class' => 'form-control', 'id' => 'timePicker', 'autocomplete' => 'off', 'placeholder' => 'حدد الوقت']) }}</td>
+                <td>{{ Form::text('conference_time', $id ? $conference['conference_time'] : null, ['class' => 'form-control', 'id' => 'timePicker', 'autocomplete' => 'off', 'placeholder' => '24:00']) }}</td>
             </tr>
             <tr>
                 <td>الموقع</td>
@@ -79,8 +79,8 @@ flatpickr("#timePicker", {
     locale: 'ar',
     enableTime: true,
     noCalendar: true,
-    dateFormat: "h:i K",
-    time_24hr: false,
+    dateFormat: "H:i",
+    time_24hr: true,
     minuteIncrement: 1,
   });
 });

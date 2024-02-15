@@ -39,7 +39,6 @@ class CourseController extends Controller
             'course_presenter.required' => 'اسم مقدم الدورة مطلوب.',
             'course_link.required' => 'رابط التسجيل مطلوب.',
             'course_link.url' => 'يجب أن يكون الرابط صالحًا.',
-            'course_link.starts_with' => 'يجب أن يبدأ الرابط بـ http://',
         ];
         $validator = Validator::make($request->all(), [
             'course_name' => 'required',
@@ -47,7 +46,7 @@ class CourseController extends Controller
              'course_time' => 'required',
              'course_location' => 'required',
              'course_presenter' => 'required',
-             'course_link' => 'required|url|starts_with:http://',
+             'course_link' => 'required|url',
          ],$messages);
     
          if ($validator->fails()) {
@@ -82,7 +81,6 @@ class CourseController extends Controller
             'course_presenter.required' => 'اسم مقدم الدورة مطلوب.',
             'course_link.required' => 'رابط التسجيل مطلوب.',
             'course_link.url' => 'يجب أن يكون الرابط صالحًا.',
-            'course_link.starts_with' => 'يجب أن يبدأ الرابط بـ http://',
         ];
         $validator = Validator::make($request->all(), [
             'course_name' => 'required',
@@ -90,7 +88,7 @@ class CourseController extends Controller
              'course_time' => 'required',
              'course_location' => 'required',
              'course_presenter' => 'required',
-             'course_link' => 'required|url|starts_with:http://',
+             'course_link' => 'required|url',
          ],$messages);
     
         if ($validator->fails()) {
