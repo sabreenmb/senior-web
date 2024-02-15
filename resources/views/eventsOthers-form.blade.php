@@ -79,12 +79,12 @@ document.addEventListener('DOMContentLoaded', function() {
     minDate: "today",
   });
 
-flatpickr("#timePicker", {
+  flatpickr("#timePicker", {
     locale: 'ar',
     enableTime: true,
     noCalendar: true,
-    dateFormat: "h:i K",
-    time_24hr: false,
+    dateFormat: "H:i",
+    time_24hr: true,
     minuteIncrement: 1,
   });
 });
