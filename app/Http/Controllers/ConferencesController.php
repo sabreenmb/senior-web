@@ -30,12 +30,12 @@ class ConferencesController extends Controller
     public function store(Request $request)
     {
         $messages = [
-            'conference_name.required' => 'عنوان الفعالية مطلوب',
-            'conference_date.required' => 'تاريخ الفعالية مطلوب.',
+            'conference_name.required' => 'عنوان المؤتمر مطلوب',
+            'conference_date.required' => 'تاريخ المؤتمر مطلوب.',
             'conference_date.date' => 'يجب أن يكون التاريخ صالحًا.',
             'conference_date.date_format' => 'يجب أن يكون تنسيق التاريخ Y-m-d.',
             'conference_time.required' => 'وقت المؤتمر مطلوب.',
-            'conference_location.required' => 'موقع الفعالية مطلوب.',
+            'conference_location.required' => 'موقع المؤتمر مطلوب.',
             'conference_link.required' => 'رابط التسجيل مطلوب.',
             'conference_link.url' => 'يجب أن يكون الرابط صالحًا.',
             'conference_link.starts_with' => 'يجب أن يبدأ الرابط بـ http://',
@@ -70,12 +70,12 @@ class ConferencesController extends Controller
     public function update($id, Request $request)
     {
         $messages = [
-            'conference_name.required' => 'عنوان الفعالية مطلوب',
-            'conference_date.required' => 'تاريخ الفعالية مطلوب.',
+            'conference_name.required' => 'عنوان المؤتمر مطلوب',
+            'conference_date.required' => 'تاريخ المؤتمر مطلوب.',
             'conference_date.date' => 'يجب أن يكون التاريخ صالحًا.',
             'conference_date.date_format' => 'يجب أن يكون تنسيق التاريخ Y-m-d.',
             'conference_time.required' => 'وقت المؤتمر مطلوب.',
-            'conference_location.required' => 'موقع الفعالية مطلوب.',
+            'conference_location.required' => 'موقع المؤتمر مطلوب.',
             'conference_link.required' => 'رابط التسجيل مطلوب.',
             'conference_link.url' => 'يجب أن يكون الرابط صالحًا.',
             'conference_link.starts_with' => 'يجب أن يبدأ الرابط بـ http://',
@@ -92,7 +92,7 @@ class ConferencesController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
       
-        $this->connect()->getReference('eventsConferencesDB/' . $id)->push($request->except(['_token']));
+        $this->connect()->getReference('eventsConferencesDB/' . $id)->update($request->except(['_token', '_method']));
         return redirect()->route('conferences.index');
     }
     public function destroy($id){
