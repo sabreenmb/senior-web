@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Opeertonity Form</title>
+  <title>ورش العمل</title>
   <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">   -->
   <link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
@@ -15,10 +15,10 @@
   <br /><br />
   @if($id)
       {{ Form::open(['url'=> route('workshops.update', ['workshop'=>$id]), 'method' => 'PUT']) }}
-      <h2>Edit course</h2>
+      <h2>تعديل بيانات ورشة العمل</h2>
   @else
       {{ Form::open(['url'=> route('workshops.store')]) }}
-      <h2>اضافة فرصة</h2>
+      <h2>اضافة ورشة عمل</h2>
   @endif
   
     @if ($errors->any())
@@ -35,7 +35,7 @@
     <table class="table table-bordered">
     <tbody>
     <tr>
-                <td>عنوان الدورة</td>
+                <td>عنوان ورشة العمل</td>
                 <td>{{ Form::text('workshop_name', $id ? $workshop['workshop_name'] : null, ['class' => 'form-control', 'autocomplete' => 'off']) }}</td>
             </tr>
             <tr>
@@ -52,7 +52,7 @@
                 <td>{{ Form::text('workshop_location', $id ? $workshop['workshop_location'] : null, ['class' => 'form-control', 'autocomplete' => 'off']) }}</td>
             </tr>
             <tr>
-                <td>مقدم الدورة</td>
+                <td>مقدم الورشة</td>
                 <td>{{ Form::text('workshop_presenter', $id ? $workshop['workshop_presenter'] : null, ['class' => 'form-control', 'autocomplete' => 'off']) }}</td>
             </tr>
             <tr>

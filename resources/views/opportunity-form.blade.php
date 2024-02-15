@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Opeertonity Form</title>
+  <title>الفرص التطوعية</title>
   <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">   -->
   <link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
@@ -15,7 +15,7 @@
   <br /><br />
   @if($id)
       {{ Form::open(['url'=> route('opportunities.update', ['opportunity'=>$id]), 'method' => 'PUT']) }}
-      <h2>Edit opportunity</h2>
+      <h2>تعديل الفرصة التطوعية</h2>
   @else
       {{ Form::open(['url'=> route('opportunities.store')]) }}
       <h2>اضافة فرصة تطوعية</h2>
