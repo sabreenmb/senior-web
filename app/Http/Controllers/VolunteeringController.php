@@ -38,7 +38,6 @@ return $firebase->createDatabase();
             'op_number.numeric' => 'يجب أن يكون عدد المتطوعين رقمًا.',
             'op_link.required' => 'رابط الفرصة التطوعية مطلوب.',
             'op_link.url' => 'يجب أن يكون الرابط صالحًا.',
-            'op_link.starts_with' => 'يجب أن يبدأ الرابط بـ http://',
         ];
         $validator = Validator::make($request->all(), [
            'op_name' => 'required',
@@ -46,7 +45,7 @@ return $firebase->createDatabase();
             'op_time' => 'required',
             'op_location' => 'required',
             'op_number' => 'required|numeric',
-            'op_link' => 'required|url|starts_with:http://',
+            'op_link' => 'required|url',
         ],$messages);
     
         if ($validator->fails()) {
@@ -82,7 +81,6 @@ return $firebase->createDatabase();
             'op_number.numeric' => 'يجب أن يكون عدد المتطوعين رقمًا.',
             'op_link.required' => 'رابط الفرصة التطوعية مطلوب.',
             'op_link.url' => 'يجب أن يكون الرابط صالحًا.',
-            'op_link.starts_with' => 'يجب أن يبدأ الرابط بـ http://',
         ];
 
         $validator = Validator::make($request->all(), [
@@ -91,7 +89,7 @@ return $firebase->createDatabase();
             'op_time' => 'required',
             'op_location' => 'required',
             'op_number' => 'required|numeric',
-            'op_link' => 'required|url|starts_with:http://',
+            'op_link' => 'required|url',
         ],$messages);
     
         if ($validator->fails()) {

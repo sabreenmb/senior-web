@@ -38,7 +38,6 @@ class ConferencesController extends Controller
             'conference_location.required' => 'موقع الفعالية مطلوب.',
             'conference_link.required' => 'رابط التسجيل مطلوب.',
             'conference_link.url' => 'يجب أن يكون الرابط صالحًا.',
-            'conference_link.starts_with' => 'يجب أن يبدأ الرابط بـ http://',
         ];
         $validator = Validator::make($request->all(), [
             'conference_name' => 'required',
@@ -78,7 +77,6 @@ class ConferencesController extends Controller
             'conference_location.required' => 'موقع الفعالية مطلوب.',
             'conference_link.required' => 'رابط التسجيل مطلوب.',
             'conference_link.url' => 'يجب أن يكون الرابط صالحًا.',
-            'conference_link.starts_with' => 'يجب أن يبدأ الرابط بـ http://',
         ];
         $validator = Validator::make($request->all(), [
             'conference_name' => 'required',

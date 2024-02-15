@@ -53,6 +53,7 @@ class OthersController extends Controller
          if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
+       
       
         $this->connect()->getReference('eventsOthersDB')->push($request->except(['_token']));
         return redirect()->route('other.index');
@@ -95,7 +96,7 @@ class OthersController extends Controller
          if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
-      
+        
         $this->connect()->getReference('eventsOthersDB')->push($request->except(['_token']));
         return redirect()->route('other.index');
     }

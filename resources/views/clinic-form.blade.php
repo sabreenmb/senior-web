@@ -63,11 +63,11 @@
             </tr>
             <tr>
     <td>وقت البداية</td>
-    <td>{{ Form::text('cl_start_time', $id ? $clinic['cl_start_time'] : null, ['class' => 'form-control', 'id' => 'startTimePicker', 'autocomplete' => 'off', 'placeholder' => 'حدد وقت البداية (24 ساعة)']) }}</td>
+    <td>{{ Form::text('cl_start_time', $id ? $clinic['cl_start_time'] : null, ['class' => 'form-control', 'id' => 'startTimePicker', 'autocomplete' => 'off', 'placeholder' => '24:00']) }}</td>
 </tr>
 <tr>
     <td>وقت النهاية</td>
-    <td>{{ Form::text('cl_end_time', $id ? $clinic['cl_end_time'] : null, ['class' => 'form-control', 'id' => 'endTimePicker', 'autocomplete' => 'off', 'placeholder' => 'حدد وقت النهاية (24 ساعة)']) }}
+    <td>{{ Form::text('cl_end_time', $id ? $clinic['cl_end_time'] : null, ['class' => 'form-control', 'id' => 'endTimePicker', 'autocomplete' => 'off', 'placeholder' => '24:00']) }}
     </td>
 </tr>
           
