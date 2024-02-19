@@ -19,27 +19,38 @@ use App\Http\Controllers\OthersController;
 |
 */
  //Route::resource("home","App\Http\Controllers\HomeController");
-Route::resource("clinic","App\Http\Controllers\ClinicController");
-Route::resource("offers","App\Http\Controllers\OffersController");
-Route::resource("courses","App\Http\Controllers\CourseController");
-Route::resource("workshops","App\Http\Controllers\WorkshopsController");
-Route::resource("other","App\Http\Controllers\OthersController");
-Route::resource("conferences","App\Http\Controllers\ConferencesController");
+ Route::group(['middleware' => 'auth'], function () {
+    // Protected routes here
+    Route::resource("clinic","App\Http\Controllers\ClinicController");
+    Route::resource("offers","App\Http\Controllers\OffersController");
+    Route::resource("courses","App\Http\Controllers\CourseController");
+    Route::resource("workshops","App\Http\Controllers\WorkshopsController");
+    Route::resource("other","App\Http\Controllers\OthersController");
+    Route::resource("conferences","App\Http\Controllers\ConferencesController");
+    Route::resource("opportunities","App\Http\Controllers\VolunteeringController");
+    Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
-Route::resource("opportunities","App\Http\Controllers\VolunteeringController");
+
+
 Route::resource("main","App\Http\Controllers\LoginController");
-
 Route::get('/', function () {
-    return redirect()->route('conferences.index');
+    return redirect()->route('main.index');
 });
-
 //for post a form 
 Route::post('/login', [LoginController::class,'login']);
-// Route::get('/events/{id}', 'EventsController@show')->name('events.show');
-// Route::get('/events/edit', 'EventsController@edit')->name('events.edit');
-// Route::get('/events/destroy', 'EventsController@destroy')->name('events.destroy');
+
+});
+// Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
 
+// Route::resource("clinic","App\Http\Controllers\ClinicController");
+// Route::resource("offers","App\Http\Controllers\OffersController");
+// Route::resource("courses","App\Http\Controllers\CourseController");
+// Route::resource("workshops","App\Http\Controllers\WorkshopsController");
+// Route::resource("other","App\Http\Controllers\OthersController");
+// Route::resource("conferences","App\Http\Controllers\ConferencesController");
+
+// Route::resource("opportunities","App\Http\Controllers\VolunteeringController");
 
 // Route::get('/home', function () {
 //     return redirect()->route('home.index');
