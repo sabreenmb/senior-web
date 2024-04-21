@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Kreait\Firebase\Factory;
 use Illuminate\Support\Facades\Validator;//ه
+use Carbon\Carbon;
 class ConferencesController extends Controller
 {
     private $firebase;
@@ -51,7 +52,10 @@ class ConferencesController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
       
-        $this->connect()->getReference('eventsConferencesDB')->push($request->except(['_token']));
+        $requestData = $request->except(['_token']);
+        $requestData['timestamp'] = Carbon::now();
+
+        $this->connect()->getReference('eventsConferencesDB')->push($requestData);
         return redirect()->route('conferences.index');
     }
     public function create(){
@@ -89,12 +93,23 @@ class ConferencesController extends Controller
          if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
+        $requestData = $request->except(['_token', '_method']);
+        $requestData['timestamp'] = Carbon::now();
+
       
-        $this->connect()->getReference('eventsConferencesDB/' . $id)->update($request->except(['_token', '_method']));
+        $this->connect()->getReference('eventsConferencesDB/' . $id)->update($requestData);
         return redirect()->route('conferences.index');
     }
     public function destroy($id){
         $this->connect()->getReference('eventsConferencesDB/' . $id)->remove();
+         // Check if there are no items left
+         $eventsConferencesDB = $this->connect()->getReference('eventsConferencesDB')->getSnapshot()->getValue();
+    
+         if ($eventsConferencesDB === null) {
+             // Set a placeholder value to keep the reference
+             $this->connect()->getReference('eventsConferencesDB')->set('placeholder');
+         }
+     
         return back();
     }
 

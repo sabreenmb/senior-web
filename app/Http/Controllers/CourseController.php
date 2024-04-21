@@ -1,9 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Kreait\Firebase\Factory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;//هنا
+use Carbon\Carbon;
 
 class CourseController extends Controller
 {
@@ -11,9 +13,9 @@ class CourseController extends Controller
     public function connect()
     {
         $firebase = (new Factory)
-        ->withServiceAccount(base_path(env('FIREBASE_CREDENTIALS')))
-        ->withDatabaseUri(env("FIREBASE_DATABASE_URL"));
-        
+            ->withServiceAccount(base_path(env('FIREBASE_CREDENTIALS')))
+            ->withDatabaseUri(env("FIREBASE_DATABASE_URL"));
+
         return $firebase->createDatabase();
 
     }
@@ -21,10 +23,10 @@ class CourseController extends Controller
     {
         $eventsCoursesDB = $this->connect()->getReference('eventsCoursesDB')->getSnapshot()->getValue();
         return view('eventsCourses-list')
-        ->with([
-            'eventsCourses' => $eventsCoursesDB
+            ->with([
+                'eventsCourses' => $eventsCoursesDB
 
-        ]);
+            ]);
     }
 
     public function store(Request $request)
@@ -42,27 +44,31 @@ class CourseController extends Controller
         ];
         $validator = Validator::make($request->all(), [
             'course_name' => 'required',
-             'course_date' => 'required|date|date_format:Y-m-d',
-             'course_time' => 'required',
-             'course_location' => 'required',
-             'course_presenter' => 'required',
-             'course_link' => 'required|url',
-         ],$messages);
-    
-         if ($validator->fails()) {
+            'course_date' => 'required|date|date_format:Y-m-d',
+            'course_time' => 'required',
+            'course_location' => 'required',
+            'course_presenter' => 'required',
+            'course_link' => 'required|url',
+        ], $messages);
+
+        if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
-      
-        $this->connect()->getReference('eventsCoursesDB')->push($request->except(['_token']));
+        $requestData = $request->except(['_token']);
+        $requestData['timestamp'] = Carbon::now();
+
+        $this->connect()->getReference('eventsCoursesDB')->push($requestData);
         return redirect()->route('courses.index');
     }
-    public function create(){
+    public function create()
+    {
         return view('eventsCourse-form')->with([
-            'id'=>null
+            'id' => null
         ]);
     }
 
-    public function edit($id){
+    public function edit($id)
+    {
         $courses = $this->connect()->getReference('eventsCoursesDB')->getChild($id)->getValue();
         return view('eventsCourse-form')->with([
             'course' => $courses,
@@ -84,28 +90,38 @@ class CourseController extends Controller
         ];
         $validator = Validator::make($request->all(), [
             'course_name' => 'required',
-             'course_date' => 'required|date|date_format:Y-m-d',
-             'course_time' => 'required',
-             'course_location' => 'required',
-             'course_presenter' => 'required',
-             'course_link' => 'required|url',
-         ],$messages);
-    
+            'course_date' => 'required|date|date_format:Y-m-d',
+            'course_time' => 'required',
+            'course_location' => 'required',
+            'course_presenter' => 'required',
+            'course_link' => 'required|url',
+        ], $messages);
+
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
+        $requestData = $request->except(['_token', '_method']);
+        $requestData['timestamp'] = Carbon::now();
 
-        $this->connect()->getReference('eventsCoursesDB/' . $id)->update($request->except(['_token', '_method']));
+        $this->connect()->getReference('eventsCoursesDB/' . $id)->update($requestData);
         return redirect()->route('courses.index');
     }
 
-    public function destroy($id){
+    public function destroy($id)
+    {
         $this->connect()->getReference('eventsCoursesDB/' . $id)->remove();
+        // Check if there are no items left
+        $eventsCoursesDB = $this->connect()->getReference('eventsCoursesDB')->getSnapshot()->getValue();
+
+        if ($eventsCoursesDB === null) {
+            // Set a placeholder value to keep the reference
+            $this->connect()->getReference('eventsCoursesDB')->set('placeholder');
+        }
+
         return back();
     }
 
 
 
 }
-    

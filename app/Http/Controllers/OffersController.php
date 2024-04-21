@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Storage;
 use Google\Cloud\Storage\StorageClient;
 use GPBMetadata\Google\Api\Service;
 use Kreait\Firebase\ServiceAccount;
+use Carbon\Carbon;
 
 //هنا
 
@@ -81,13 +82,18 @@ class OffersController extends Controller
             $storage->getBucket()->upload($uploadedfile, ['name' => 'offers_web_images/' . $imageName]);
             unlink($localPath . $imageName);
         }
-        $url = $storage->getBucket()->object('offers_web_images/' . $imageName)->signedUrl(new \DateTime('tomorrow'));
+        $url = $storage->getBucket()->object('offers_web_images/' . $imageName)->signedUrl(new \DateTime('9999-12-31'));
 
         $request->request->remove('image');
         // $request->merge(['image' => $url]);
         $request->request->add(['of_logo' => $url]);
         $request->flash();
-        $this->connect()->getReference('offersdb')->push($request->except(['_token']));
+
+        $requestData = $request->except(['_token']);
+        $requestData['timestamp'] = Carbon::now();
+
+        $this->connect()->getReference('offersdb')->push($requestData);
+
         return redirect()->route('offers.index');
     }
     public function create()
@@ -154,20 +160,33 @@ class OffersController extends Controller
                 $storage->getBucket()->upload($uploadedfile, ['name' => 'offers_web_images/' . $imageName]);
                 unlink($localPath . $imageName);
 
-                $url = $storage->getBucket()->object('offers_web_images/' . $imageName)->signedUrl(new \DateTime('tomorrow'));
+                $url = $storage->getBucket()->object('offers_web_images/' . $imageName)->signedUrl(new \DateTime('9999-12-31'));
                 
             }
             
         }
         $request->request->remove('image');
             $request->request->add(['of_logo' => $url]);
-            $this->connect()->getReference('offersdb/' . $id)->update($request->except(['_token', '_method']));
+
+            $requestData = $request->except(['_token', '_method']);
+            $requestData['timestamp'] = Carbon::now();
+    
+
+            $this->connect()->getReference('offersdb/' . $id)->update($requestData);
             return redirect()->route('offers.index');
     }
 
     public function destroy($id)
     {
         $this->connect()->getReference('offersdb/' . $id)->remove();
+         // Check if there are no items left
+         $offersdb = $this->connect()->getReference('offersdb')->getSnapshot()->getValue();
+    
+         if ($offersdb === null) {
+             // Set a placeholder value to keep the reference
+             $this->connect()->getReference('offersdb')->set('placeholder');
+         }
+     
         return back();
     }
 }

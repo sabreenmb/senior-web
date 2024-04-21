@@ -4,18 +4,21 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>العيادات</title>
+  <title>النوادي الطلابية</title>
+  <link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mdb-ui-kit@3.10.0/css/mdb.min.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  <link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
+ 
   <style>
+    .active {
+      text-decoration-line: underline;
+      text-decoration-color: #F2D1BE;
+    }
     .myBox {
       padding-top: 10px;
       padding-right: 30px;
-
     }
-
     .myBtn:hover,
     .myBtn,
     .myBtn:focus {
@@ -25,7 +28,7 @@
       border: 0 none;
       border-radius: 6px;
     }
-    
+
     .navC {
       background-color: #535D74;
     }
@@ -40,7 +43,6 @@
       cursor: default;
       transition: 0.2s ease-in-out;
       border-right: 3px solid transparent;
-      font-weight: 300;
     }
 
     ul>li {
@@ -66,15 +68,13 @@
       color: black;
     }
   </style>
-
 </head>
 
 <body>
-  <!-- Navbar -->
 <!-- Navbar -->
 <?php
-        $user = session('user');
-        ?>
+    $user = session('user');
+  ?>
 <nav class="navbar navbar-default navbar-expand-lg navbar-fixed-top bg-white">
 
 <div class="container">
@@ -106,7 +106,7 @@
               العيادات </a>
           </li>
           <li>
-            <a class="dropdown-item" href="{{ route('courses.index') }}">
+            <a class="dropdown-item " href="{{ route('courses.index') }}">
               الفعاليات </a>
           </li>
           <li>
@@ -127,8 +127,7 @@
         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
           <li class="myItem">
             <br>
-            <label class="dropdown-item text-center" for="exampleDropdownFormEmail1"> {{ $user }}
-            </label><br>
+            <label class="dropdown-item text-center" for="exampleDropdownFormEmail1"> {{ $user }}  </label><br>
           </li>
           <li>
             <hr class="dropdown-divider myItem" />
@@ -151,49 +150,54 @@
   </div>
 </div>
 </nav>
-  <div class="container">
+<!-- end nav  -->
+  <div class="container" >
     <br /><br />
-    <h2>العيادات</h2>
+    <h2>النوادي الطلابية</h2>
 
-    <a href="{{ route('clinic.create') }}" class="myBtn btn btn-sm btn-rounded float-end">اضافة عيادة</a>
+    <a href="{{ route('clubs.create') }}" class="myBtn btn btn-sm btn-rounded float-end">اضافة نادي طلابي</a>
     <br /><br />
 
     <table class="table table-bordered table-hover">
       <thead>
-        <th>الفرع</th>
-        <th>التخصص</th>
-        <th>اسم الطبيب</th>
-        <th>التاريخ</th>
-        <th>بداية الوقت</th>
-        <th>نهاية الوقت</th>
+        <th>اسم النادي</th>
+        <th>شعار النادي</th>
+        <th>نبذة عن النادي</th>
+        <th>قائد/ة النادي</th>
+        <th>موعد فتح التسجيل:</th>
+        <th>وسيلة التواصل</th>
+        <th>رابط الأعضاء</th>
+        <th> رابط الادارة</th>
         <th></th>
         <th></th>
-      </thead>
 
-      @if ($clinicdb !== null && $clinicdb !== 'placeholder')
+      </thead>
+      @if ($studentClubsDB !== null && $studentClubsDB !== 'placeholder')
+
       <tbody>
-        @foreach($clinicdb as $id => $clinic)
+        @foreach($studentClubsDB as $id => $club)
 
         <tr>
-          <td>{{ $clinic['cl_branch'] }}</td>
-          <td>{{ $clinic['cl_department'] }}</td>
-          <td>{{ $clinic['cl_doctor'] }}</td>
-          <td>{{ $clinic['cl_date'] }}</td>
-          <td>{{ $clinic['cl_start_time'] }}</td>
-          <td>{{ $clinic['cl_end_time'] }}</td>
+          <td>{{ $club['club_name'] }}</td>
+          <td><img src="{{ $club['club_logo'] }}" height="70" alt="logo"></td>
+          <td>{{ $club['club_details'] }}</td>
+          <td>{{ $club['club_leader'] }}</td>
+          <td>{{ $club['club_regTime'] }}</td>
+          <td>{{ $club['club_contact'] }}</td>
+          <td>{{ $club['clubMB_link'] }}</td>
+          <td>{{ $club['clubMG_link'] }}</td>
 
 
-          <td><a href="{{ route('clinic.edit', ['clinic' => $id]) }}"
+          <td><a href="{{ route('clubs.edit', ['club' => $id]) }}"
               class="btn btn-success btn-sm btn-rounded">تعديل</a></td>
 
-          {{ Form::open(['url'=> route('clinic.destroy', ['clinic' => $id]), 'method' => 'DELETE']) }}
+          {{ Form::open(['url' => route('clubs.destroy', ['club' => $id]), 'method' => 'DELETE']) }}
           <td><button type="submit" class="btn btn-danger btn-sm btn-rounded">حذف</button></td>
           {{ Form::close() }}
         </tr>
         @endforeach
       </tbody>
-    @endif
-   
+      @endif
     </table>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"

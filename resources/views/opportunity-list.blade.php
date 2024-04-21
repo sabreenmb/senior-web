@@ -71,7 +71,9 @@
 <body>
   
   <!-- Navbar -->
-
+  <?php
+        $user = session('user');
+        ?>
   <nav class="navbar navbar-default navbar-expand-lg navbar-fixed-top bg-white">
 
     <div class="container">
@@ -106,6 +108,10 @@
                 <a class="dropdown-item " href="{{ route('courses.index') }}">
                   الفعاليات </a>
               </li>
+              <li>
+                <a class="dropdown-item " href="{{ route('clubs.index') }}">
+                    النوادي الطلابية </a>
+            </li>
             </ul>
           </li>
         </ul>
@@ -120,8 +126,7 @@
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
               <li class="myItem">
                 <br>
-                <label class="dropdown-item text-center" for="exampleDropdownFormEmail1"> صابرين بن سلمان
-                </label><br>
+                <label class="dropdown-item text-center" for="exampleDropdownFormEmail1">{{ $user }} </label><br>
               </li>
               <li>
                 <hr class="dropdown-divider myItem" />
@@ -163,7 +168,7 @@
         <th></th>
         <th></th>
       </thead>
-      @if ($opportunities !=null)
+      @if ($opportunities !== null && $opportunities !== 'placeholder')
 
       <tbody>
         @foreach($opportunities as $id => $opportunity)

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Kreait\Firebase\Factory;
 use Illuminate\Support\Facades\Validator; //ه
+use Carbon\Carbon;
 
 class OthersController extends Controller
 {
@@ -69,7 +70,10 @@ class OthersController extends Controller
 
         }
 
-        $this->connect()->getReference('eventsOthersDB')->push($request->except(['_token']));
+        $requestData = $request->except(['_token']);
+        $requestData['timestamp'] = Carbon::now();
+
+        $this->connect()->getReference('eventsOthersDB')->push($requestData);
         return redirect()->route('other.index');
     }
     public function create()
@@ -144,13 +148,25 @@ class OthersController extends Controller
         // $request->merge(['OEvent_link' => $oEventLink]);
         // $request->merge(['OEvent_presenter' => $oEventPresenter]);
 
+        $requestData = $request->except(['_token', '_method']);
+        $requestData['timestamp'] = Carbon::now();
 
-        $this->connect()->getReference('eventsOthersDB/' . $id)->update($request->except(['_token', '_method']));
+
+
+        $this->connect()->getReference('eventsOthersDB/' . $id)->update($requestData);
         return redirect()->route('other.index');
     }
     public function destroy($id)
     {
         $this->connect()->getReference('eventsOthersDB/' . $id)->remove();
+         // Check if there are no items left
+         $eventsOthersDB = $this->connect()->getReference('eventsOthersDB')->getSnapshot()->getValue();
+    
+         if ($eventsOthersDB === null) {
+             // Set a placeholder value to keep the reference
+             $this->connect()->getReference('eventsOthersDB')->set('placeholder');
+         }
+     
         return back();
     }
 
