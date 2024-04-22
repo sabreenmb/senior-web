@@ -30,7 +30,7 @@ Route::resource("opportunities","App\Http\Controllers\VolunteeringController");
 Route::resource("main","App\Http\Controllers\LoginController");
 
 Route::get('/', function () {
-    return redirect()->route('conferences.index');
+    return redirect()->route('clinic.index');
 });
 
 //for post a form 
