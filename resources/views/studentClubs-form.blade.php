@@ -70,8 +70,8 @@
 <body>
      <!-- Navbar -->
      <?php
-    $user = session('user');
-  ?>
+        $user = session('user');
+        ?>
   <nav class="navbar navbar-default navbar-expand-lg navbar-fixed-top bg-white">
 
 <div class="container">
@@ -124,7 +124,7 @@
         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
           <li class="myItem">
             <br>
-            <label class="dropdown-item text-center" for="exampleDropdownFormEmail1"> {{ $user }}   </label><br>
+            <label class="dropdown-item text-center" for="exampleDropdownFormEmail1"> {{ $user }}  </label><br>
           </li>
           <li>
             <hr class="dropdown-divider myItem" />
@@ -150,26 +150,13 @@
 <!-- end nav -->
     <div class="container">
         <br /> <br />
-        <?php
-        $categoryArray = [
-            'رياضة' => 'رياضة',
-            'تعليم وتدريب' => 'تعليم وتدريب',
-            'مطاعم ومقاهي' => 'مطاعم ومقاهي',
-            'ترفيه' => 'ترفيه',
-            'مراكز صحية' => 'مراكز صحية',
-            'عناية وجمال' => 'عناية وجمال',
-            'سياحة وفنادق' => 'سياحة وفنادق',
-            'خدمات السيارات' => 'خدمات السيارات',
-            'تسوق' => 'تسوق',
-            'عقارات وبناء' => 'عقارات وبناء',
-        ];
-        ?>
+   
         @if($id)
-        {{ Form::open(['url'=> route('offers.update', ['offer'=>$id]), 'method' => 'PUT','enctype' => 'multipart/form-data']) }}
-        <h2>تعديل العرض</h2>
+        {{ Form::open(['url'=> route('clubs.update', ['club'=>$id]), 'method' => 'PUT','enctype' => 'multipart/form-data']) }}
+        <h2>تعديل النوادي الطلابية</h2>
         @else
-        {{ Form::open(['url'=> route('offers.store'), 'method' => 'POST', 'enctype' => 'multipart/form-data']) }}
-        <h2>اضافة عرض حصري</h2>
+        {{ Form::open(['url'=> route('clubs.store'), 'method' => 'POST', 'enctype' => 'multipart/form-data']) }}
+        <h2>اضافة نادي طلابي</h2>
         @endif
 
         @if ($errors->any())
@@ -185,77 +172,65 @@
         <div class="table-responsive text-nowrap">
             <table class="table table-bordered">
                 <tbody>
-                    <tr>
-                        <td>التصنيف</td>
-                        <td>{{ Form::select('of_category', $categoryArray,
-                         isset($id) ? $offer['of_category'] : null, ['class' => 'form-control','placeholder' => 'اختر تصنيف']) }}</td>
+            <tr>
+                        <td>اسم النادي الطلابي</td>
+                        <td>
+
+                            {{ Form::text('club_name', $id ? $club['club_name'] : null, ['class' => 'form-control', 'autocomplete' => 'off']) }}
+                        </td>
                     </tr>
                     <tr>
-                        <td>شعار الشركة</td>
+                        <td>شعار النادي</td>
                         <td>
                             
                         @if($id)
-                        <img src="{{ $offer['of_logo'] }}" height="70" alt="logo">
+                        <img src="{{ $club['club_logo'] }}" height="70" alt="logo">
                             
                             @endif
                             {!! Form::file('image', ['class'=>'form-control', 'id' => 'image','name' => 'image' , 'autocomplete' => 'off' ,'placeholder' => 'اختر صورة']) !!}
                             
                         </td>
                     </tr>
-                    <tr>
-                        <td>اسم الشركة</td>
-                        <td>
 
-                            {{ Form::text('of_name', $id ? $offer['of_name'] : null, ['class' => 'form-control', 'autocomplete' => 'off']) }}
+               
+                    <tr>
+                        <td>نبذة عن النادي</td>
+                        <td>{{ Form::text('club_details', $id ? $club['club_details'] : null, ['class' => 'form-control', 'autocomplete' => 'off']) }}
                         </td>
                     </tr>
                     <tr>
-                        <td>مقدار الخصم</td>
-                        <td>{{ Form::number('of_discount', $id ? $offer['of_discount'] : null, ['class' => 'form-control', 'autocomplete' => 'off']) }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>تاريخ الصلاحية</td>
-                        <td>{{ Form::text('of_expDate', $id ? $offer['of_expDate'] : null, ['class' => 'form-control', 'id' => 'datePicker', 'autocomplete' => 'off', 'placeholder' => 'حدد التاريخ']) }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>الفئة المستهدفة</td>
-                        <td>{{ Form::text('of_target', $id ? $offer['of_target'] : null, ['class' => 'form-control', 'autocomplete' => 'off']) }}</td>
+                        <td>قائد/ة النادي</td>
+                        <td>{{ Form::text('club_leader', $id ? $club['club_leader'] : null, ['class' => 'form-control', 'autocomplete' => 'off']) }}</td>
+                    </tr>  
+                     <tr>
+                        <td>موعد فتح التسجيل:</td>
+                        <td>{{ Form::text('club_regTime', $id ? $club['club_regTime'] : null, ['class' => 'form-control', 'autocomplete' => 'off']) }}</td>
                     </tr>
                     <tr>
                         <td>وسيلة التواصل</td>
-                        <td>{{ Form::text('of_contact', $id ? $offer['of_contact'] : null, ['class' => 'form-control', 'autocomplete' => 'off']) }}</td>
+                        <td>{{ Form::text('club_contact', $id ? $club['club_contact'] : null, ['class' => 'form-control', 'autocomplete' => 'off']) }}</td>
                     </tr>
+                 
                     <tr>
-                        <td>كود الخصم</td>
-                        <td>{{ Form::text('of_code', $id ? $offer['of_code'] : null, ['class' => 'form-control', 'autocomplete' => 'off']) }}</td>
-                    </tr>
-                    <tr>
-                        <td>تفاصيل العرض</td>
-                        <td>{{ Form::text('of_details', $id ? $offer['of_details'] : null, ['class' => 'form-control', 'autocomplete' => 'off']) }}</td>
+                        <td>رابط الأعضاء</td>
+                        <td>{{ Form::text('clubMB_link', $id ? $club['clubMB_link'] : null, ['class' => 'form-control', 'autocomplete' => 'off']) }}</td>
                     </tr>
 
+                    <tr>
+                        <td>رابط الادارة</td>
+                        <td>{{ Form::text('clubMG_link', $id ? $club['clubMG_link'] : null, ['class' => 'form-control', 'autocomplete' => 'off']) }}</td>
+                    </tr>
                 </tbody>
             </table>
 
             <button type="submit" class="btn btn-success btn-sm btn-rouneded">حفظ</button>
-            <a href="{{ route('offers.index') }}" class="btn btn-danger btn-sm btn-rounded">رجوع</a>
+            <a href="{{ route('clubs.index') }}" class="btn btn-danger btn-sm btn-rounded">رجوع</a>
 
             {{ Form::close() }}
         </div>
         <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
         <script src="https://npmcdn.com/flatpickr/dist/l10n/ar.js"></script>
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                flatpickr("#datePicker", {
-                    locale: 'ar',
-                    altInput: true,
-                    altFormat: "F j, Y",
-                    dateFormat: "Y-m-d",
-                });
-            });
-        </script>
+      
    
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
 

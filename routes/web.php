@@ -25,53 +25,19 @@ Route::resource("courses","App\Http\Controllers\CourseController");
 Route::resource("workshops","App\Http\Controllers\WorkshopsController");
 Route::resource("other","App\Http\Controllers\OthersController");
 Route::resource("conferences","App\Http\Controllers\ConferencesController");
+Route::resource("clubs", "App\Http\Controllers\StudentClubsController");
+Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::resource("opportunities","App\Http\Controllers\VolunteeringController");
 Route::resource("main","App\Http\Controllers\LoginController");
 
 Route::get('/', function () {
+<<<<<<< HEAD
     return redirect()->route('clinic.index');
+=======
+    return redirect()->route('main.index');
+>>>>>>> 8b27d9efbab0608e19750cd053af6937cf3e8f27
 });
 
 //for post a form 
 Route::post('/login', [LoginController::class,'login']);
-// Route::get('/events/{id}', 'EventsController@show')->name('events.show');
-// Route::get('/events/edit', 'EventsController@edit')->name('events.edit');
-// Route::get('/events/destroy', 'EventsController@destroy')->name('events.destroy');
-
-
-
-// Route::get('/home', function () {
-//     return redirect()->route('home.index');
-// });
-// Route::resource("main","App\Http\Controllers\LoginController");
-
-// Route::get('/', [LoginController::class,'index'])->name('main');
-// Route::get('/volunteering', [HomeController::class,'volunteering']);
-// Route::get('/offers', [HomeController::class,'offers']);
-// Route::get('/clinic', [HomeController::class,'clinic']);
-// Route::get('/events', [HomeController::class,'events']);
-
-// Route::get('/successlogin', [LoginController::class,'successlogin']);
-// Route::get('/home', function (){return view('home');});
-// Route::get('/opportunities', [VolunteeringController::class,'create']);
-// Route::get('/opportunities-list', [VolunteeringController::class,'index']);
-
-// Route::get('/', function () {
-//     return view('login');
-// });
-// Route::get('/', 'LoginController@index');
-
-// Route::post('/login', 'LoginController@checkLogin');
-// // Route::post('/login', function () {
-// //     return redirect()->route('main.checkLogin');
-// // });
-// Route::get('/successlogin', 'LoginController@successlogin');
-
-// Route::get('/', function () {
-//     return redirect()->route('main.successlogin');
-// });
-// Route::get('/opportunities-list', function () {
-//     return redirect()->route('opportunities.index');
-// });
-

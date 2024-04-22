@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use Kreait\Firebase\Factory;
 use Illuminate\Support\Facades\Validator;//هنا
+use Carbon\Carbon;
 
 use Illuminate\Http\Request;
 
@@ -52,8 +53,10 @@ class WorkshopsController extends Controller
          if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
-      
-        $this->connect()->getReference('eventsWorkshopsDB')->push($request->except(['_token']));
+        $requestData = $request->except(['_token']);
+        $requestData['timestamp'] = Carbon::now();
+
+        $this->connect()->getReference('eventsWorkshopsDB')->push($requestData);
         return redirect()->route('workshops.index');
     }
     public function create(){
@@ -94,14 +97,24 @@ class WorkshopsController extends Controller
          if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
+        $requestData = $request->except(['_token', '_method']);
+        $requestData['timestamp'] = Carbon::now();
 
 
-        $this->connect()->getReference('eventsWorkshopsDB/' . $id)->update($request->except(['_token', '_method']));
+        $this->connect()->getReference('eventsWorkshopsDB/' . $id)->update($requestData);
         return redirect()->route('workshops.index');
     }
 
     public function destroy($id){
         $this->connect()->getReference('eventsWorkshopsDB/' . $id)->remove();
+         // Check if there are no items left
+         $eventsWorkshopsDB = $this->connect()->getReference('eventsWorkshopsDB')->getSnapshot()->getValue();
+    
+         if ($eventsWorkshopsDB === null) {
+             // Set a placeholder value to keep the reference
+             $this->connect()->getReference('eventsWorkshopsDB')->set('placeholder');
+         }
+     
         return back();
     }
 

@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Storage;
 use Google\Cloud\Storage\StorageClient;
 use GPBMetadata\Google\Api\Service;
 use Kreait\Firebase\ServiceAccount;
+use Carbon\Carbon;
 
 //هنا
 
@@ -36,13 +37,16 @@ class OffersController extends Controller
         $messages = [
             'of_category.required' => 'حقل التصنيف مطلوب.',
             'image.required' => 'حقل شعار الشركة مطلوب.',
-            // 'image.mim' => 'حقل شعار الشركة مطلوب.',
-            'of_name.required' => 'حقل اسم الشركة مطلوب.',
-            'of_discount.required' => 'حقل مقدار الخصم مطلوب.',
-            'of_expDate.required' => 'حقل تاريخ الانتهاء مطلوب.',
-            'of_target.required' => 'حقل الفئة المستهدفة مطلوب.',
-            'of_contact.required' => 'حقل وسيلة التواصل مطلوب.',
-            'of_details.required' => 'حقل تفاصيل الخصم مطلوب.',
+            'image.image' => 'شعار الشركة يجب أن يكون صورة',
+            'image.mimes' => 'شعار الشركة يجب أن يكون من نوع jpg,jpeg,bmp,png,gif,svg.',
+            'of_name.required' => ' اسم الشركة مطلوب.',
+            'of_discount.required' => ' مقدار الخصم مطلوب.',
+            'of_discount.numeric'=> 'مقدار الخصم يجب أن يكون رقم',
+            'of_discount.between'=> 'مقدار الخصم يجب أن يكون بين 1 و 100',
+            'of_expDate.required' => ' تاريخ الانتهاء مطلوب.',
+            'of_target.required' => ' الفئة المستهدفة مطلوب.',
+            'of_contact.required' => ' وسيلة التواصل مطلوب.',
+            'of_details.required' => ' تفاصيل الخصم مطلوب.',
             'of_code.required' => 'رمز الخصم مطلوب.',
 
         ];
@@ -51,7 +55,7 @@ class OffersController extends Controller
             'of_category' => 'required',
             'image' => 'required|image|mimes:jpg,jpeg,bmp,png,gif,svg|max:2048',
             'of_name' => 'required',
-            'of_discount' => 'required',
+            'of_discount' => 'required|numeric|between:0,100',
             'of_expDate' => 'required|date|date_format:Y-m-d',
             'of_target' => 'required',
             'of_contact' => 'required',
@@ -78,13 +82,18 @@ class OffersController extends Controller
             $storage->getBucket()->upload($uploadedfile, ['name' => 'offers_web_images/' . $imageName]);
             unlink($localPath . $imageName);
         }
-        $url = $storage->getBucket()->object('offers_web_images/' . $imageName)->signedUrl(new \DateTime('tomorrow'));
+        $url = $storage->getBucket()->object('offers_web_images/' . $imageName)->signedUrl(new \DateTime('9999-12-31'));
 
         $request->request->remove('image');
         // $request->merge(['image' => $url]);
         $request->request->add(['of_logo' => $url]);
         $request->flash();
-        $this->connect()->getReference('offersdb')->push($request->except(['_token']));
+
+        $requestData = $request->except(['_token']);
+        $requestData['timestamp'] = Carbon::now();
+
+        $this->connect()->getReference('offersdb')->push($requestData);
+
         return redirect()->route('offers.index');
     }
     public function create()
@@ -105,15 +114,17 @@ class OffersController extends Controller
     {
         $url =  $this->connect()->getReference('offersdb/' . $id)->getChild('of_logo')->getValue();
         $messages = [
-            'of_category.required' => 'حقل التصنيف مطلوب.',
-            //'image.image' => $request->file('image'),
-            // 'image.mim' => 'حقل شعار الشركة مطلوب.',
-            'of_name.required' => 'حقل اسم الشركة مطلوب.',
-            'of_discount.required' => 'حقل مقدار الخصم مطلوب.',
-            'of_expDate.required' => 'حقل تاريخ الانتهاء مطلوب.',
-            'of_target.required' => 'حقل الفئة المستهدفة مطلوب.',
-            'of_contact.required' => 'حقل وسيلة التواصل مطلوب.',
-            'of_details.required' => 'حقل تفاصيل الخصم مطلوب.',
+            'of_category.required' => ' التصنيف مطلوب.',
+            'image.image' => 'شعار الشركة يجب أن يكون صورة',
+            'image.mimes' => 'شعار الشركة يجب أن يكون من نوع jpg,jpeg,bmp,png,gif,svg.',
+            'of_name.required' => ' اسم الشركة مطلوب.',
+            'of_discount.required' => ' مقدار الخصم مطلوب.',
+            'of_discount.numeric'=> 'مقدار الخصم يجب أن يكون رقم',
+            'of_discount.between'=> 'مقدار الخصم يجب أن يكون بين 1 و 100',
+            'of_expDate.required' => ' تاريخ الانتهاء مطلوب.',
+            'of_target.required' => ' الفئة المستهدفة مطلوب.',
+            'of_contact.required' => ' وسيلة التواصل مطلوب.',
+            'of_details.required' => ' تفاصيل الخصم مطلوب.',
             'of_code.required' => 'رمز الخصم مطلوب.',
 
         ];
@@ -122,7 +133,7 @@ class OffersController extends Controller
             'of_category' => 'required',
             'image' => 'image|mimes:jpg,jpeg,bmp,png,gif,svg|max:2048',
             'of_name' => 'required',
-            'of_discount' => 'required',
+            'of_discount' => 'required|numeric|between:0,100',
             'of_expDate' => 'required|date|date_format:Y-m-d',
             'of_target' => 'required',
             'of_contact' => 'required',
@@ -149,20 +160,33 @@ class OffersController extends Controller
                 $storage->getBucket()->upload($uploadedfile, ['name' => 'offers_web_images/' . $imageName]);
                 unlink($localPath . $imageName);
 
-                $url = $storage->getBucket()->object('offers_web_images/' . $imageName)->signedUrl(new \DateTime('tomorrow'));
+                $url = $storage->getBucket()->object('offers_web_images/' . $imageName)->signedUrl(new \DateTime('9999-12-31'));
                 
             }
             
         }
         $request->request->remove('image');
             $request->request->add(['of_logo' => $url]);
-            $this->connect()->getReference('offersdb/' . $id)->update($request->except(['_token', '_method']));
+
+            $requestData = $request->except(['_token', '_method']);
+            $requestData['timestamp'] = Carbon::now();
+    
+
+            $this->connect()->getReference('offersdb/' . $id)->update($requestData);
             return redirect()->route('offers.index');
     }
 
     public function destroy($id)
     {
         $this->connect()->getReference('offersdb/' . $id)->remove();
+         // Check if there are no items left
+         $offersdb = $this->connect()->getReference('offersdb')->getSnapshot()->getValue();
+    
+         if ($offersdb === null) {
+             // Set a placeholder value to keep the reference
+             $this->connect()->getReference('offersdb')->set('placeholder');
+         }
+     
         return back();
     }
 }

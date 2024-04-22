@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Kreait\Firebase\Factory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Carbon\Carbon;
 
 class VolunteeringController extends Controller
 {
@@ -52,7 +53,11 @@ return $firebase->createDatabase();
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        $this->connect()->getReference('opportunities')->push($request->except(['_token']));
+        $requestData = $request->except(['_token']);
+        $requestData['timestamp'] = Carbon::now();
+
+
+        $this->connect()->getReference('opportunities')->push($requestData);
         return redirect()->route('opportunities.index');
     }
     public function create(){
@@ -95,13 +100,23 @@ return $firebase->createDatabase();
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
+        $requestData = $request->except(['_token', '_method']);
+        $requestData['timestamp'] = Carbon::now();
 
 
-        $this->connect()->getReference('opportunities/' . $id)->update($request->except(['_token', '_method']));
+        $this->connect()->getReference('opportunities/' . $id)->update($requestData);
         return redirect()->route('opportunities.index');
     }
     public function destroy($id){
         $this->connect()->getReference('opportunities/' . $id)->remove();
+         // Check if there are no items left
+         $opportunities = $this->connect()->getReference('opportunities')->getSnapshot()->getValue();
+    
+         if ($opportunities === null) {
+             // Set a placeholder value to keep the reference
+             $this->connect()->getReference('opportunities')->set('placeholder');
+         }
+     
         return back();
     }
 }

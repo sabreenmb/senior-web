@@ -127,6 +127,14 @@ return $firebase->createDatabase();
     }
     public function destroy($id){
         $this->connect()->getReference('clinicdb/' . $id)->remove();
+         // Check if there are no items left
+         $clinicdb = $this->connect()->getReference('clinicdb')->getSnapshot()->getValue();
+    
+         if ($clinicdb === null) {
+             // Set a placeholder value to keep the reference
+             $this->connect()->getReference('clinicdb')->set('placeholder');
+         }
+     
         return back();
     }
 }
