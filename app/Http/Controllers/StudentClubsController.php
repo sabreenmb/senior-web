@@ -34,10 +34,10 @@ class StudentClubsController extends Controller
     public function store(Request $request)
     {
         $messages = [
+            'club_name.required' => ' اسم النادي مطلوب.',
             'image.required' => 'حقل شعار النادي مطلوب.',
             'image.image' => 'شعار النادي يجب أن يكون صورة',
             'image.mimes' => 'شعار النادي يجب أن يكون من نوع jpg,jpeg,bmp,png,gif,svg.',
-            'club_name.required' => ' اسم النادي مطلوب.',
             'club_details.required' => ' حقل النبذة عن النادي مطلوب.',
             'club_leader.required' => ' حقل قائد\ة النادي مطلوب.',
             'club_regTime.required' => ' حقل موعد التسجيل مطلوب',
@@ -47,8 +47,8 @@ class StudentClubsController extends Controller
         ];
 
         $validator = Validator::make($request->all(), [
-            'image' => 'image|mimes:jpg,jpeg,bmp,png,gif,svg|max:2048',
             'club_name' => 'required',
+            'image' => 'required|image|mimes:jpg,jpeg,bmp,png,gif,svg|max:2048',
             'club_details' => 'required',
             'club_leader' => 'required',
             'club_regTime' => 'required',
@@ -119,9 +119,11 @@ class StudentClubsController extends Controller
     }
 
     public function update($id, Request $request)
-    {
+    { 
+       $url =  $this->connect()->getReference('studentClubsDB/' . $id)->getChild('club_logo')->getValue();
+
         $messages = [
-            'image.required' => 'حقل شعار النادي مطلوب.',
+            // 'image.required' => 'حقل شعار النادي مطلوب.',
             'image.image' => 'شعار النادي يجب أن يكون صورة',
             'image.mimes' => 'شعار النادي يجب أن يكون من نوع jpg,jpeg,bmp,png,gif,svg.',
             'club_name.required' => ' اسم النادي مطلوب.',

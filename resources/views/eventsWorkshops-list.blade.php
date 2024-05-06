@@ -153,10 +153,10 @@
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav align-items-center mx-auto">
               <li class="nav-item myItem">
-                <a class="nav-link mx-2 " href="#">الدورات</a>
+                <a class="nav-link mx-2 " href="{{ route('courses.index') }}">الدورات</a>
               </li>
               <li class="nav-item myItem">
-                <a href="{{ route('workshops.index') }}" class="nav-link mx-2 active">ورش العمل</a>
+                <a  class="nav-link mx-2 active">ورش العمل</a>
               </li>
               <li class="nav-item myItem">
                 <a class="nav-link mx-2" href="{{ route('conferences.index') }}">المؤتمرات</a>

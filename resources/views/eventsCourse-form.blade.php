@@ -175,6 +175,7 @@
               'autocomplete' => 'off']) }}</td>
           </tr>
           <tr>
+            
             <td>التاريخ</td>
             <td>{{ Form::text('course_date', $id ? $course['course_date'] : null, ['class' => 'form-control', 'id' =>
               'datePicker', 'autocomplete' => 'off', 'placeholder' => 'حدد التاريخ']) }}
