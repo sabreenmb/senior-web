@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 use Kreait\Firebase\Factory;
-use Illuminate\Support\Facades\Validator;//هنا
+use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
-
 use Illuminate\Http\Request;
 
 class WorkshopsController extends Controller
@@ -15,7 +14,6 @@ class WorkshopsController extends Controller
         $firebase = (new Factory)
         ->withServiceAccount(base_path(env('FIREBASE_CREDENTIALS')))
         ->withDatabaseUri(env("FIREBASE_DATABASE_URL"));
-        
         return $firebase->createDatabase();
 
     }
@@ -27,6 +25,7 @@ class WorkshopsController extends Controller
             'eventsWorkshops' => $eventsWorkshopsDB
         ]);
     }
+
 
     public function store(Request $request)
     {
