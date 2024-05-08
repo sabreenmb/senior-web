@@ -204,7 +204,8 @@
                     </tr>  
                      <tr>
                         <td>موعد فتح التسجيل:</td>
-                        <td>{{ Form::text('club_regTime', $id ? $club['club_regTime'] : null, ['class' => 'form-control', 'id' => 'datePicker', 'autocomplete' => 'off', 'placeholder' => 'حدد التاريخ']) }}    </td>
+                        <td>{{ Form::text('club_regTime', $id ? $club['club_regTime'] : null, ['class' => 'form-control', 'id' =>
+              'datePicker', 'autocomplete' => 'off', 'placeholder' => 'حدد التاريخ']) }}</td>
                     </tr>
                     <tr>
                         <td>وسيلة التواصل</td>
@@ -213,12 +214,12 @@
                  
                     <tr>
                         <td>رابط الأعضاء</td>
-                        <td>{{ Form::text('clubMB_link', $id ? $club['clubMB_link'] : null, ['class' => 'form-control', 'autocomplete' => 'off']) }}</td>
+                        <td>{{ Form::text('clubMB_link', $id ? $club['clubMB_link'] : null, ['class' => 'form-control', 'id' => 'clubMBLink', 'autocomplete' => 'off']) }}</td>
                     </tr>
 
                     <tr>
                         <td>رابط الادارة</td>
-                        <td>{{ Form::text('clubMG_link', $id ? $club['clubMG_link'] : null, ['class' => 'form-control', 'autocomplete' => 'off']) }}</td>
+                        <td>{{ Form::text('clubMG_link', $id ? $club['clubMG_link'] : null, ['class' => 'form-control', 'id' => 'clubMGLink', 'autocomplete' => 'off']) }}</td>
                     </tr>
                 </tbody>
             </table>
@@ -229,32 +230,43 @@
             {{ Form::close() }}
         </div>
         <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-        <script src="https://npmcdn.com/flatpickr/dist/l10n/ar.js"></script>
-      
-   
+    <script src="https://npmcdn.com/flatpickr/dist/l10n/ar.js"></script>
     <script>
       document.addEventListener('DOMContentLoaded', function () {
-        flatpickr("#datePicker", {
-          locale: 'ar',
-          altInput: true,
-          altFormat: "F j, Y",
-          dateFormat: "Y-m-d",
-          minDate: "today",
+    var datePickerElement = document.getElementById('datePicker');
+    var clubMBLink = document.getElementById('clubMBLink');
+    var clubMGLink = document.getElementById('clubMGLink');
+    
+    if (datePickerElement) {
+        flatpickr(datePickerElement, {
+            locale: 'ar',
+            altInput: true,
+            altFormat: "F j, Y",
+            dateFormat: "Y-m-d",
+            minDate: "today",
+            onChange: function(selectedDates) {
+                var now = new Date();
+                now.setHours(0,0,0,0);
+                var selectedDate = selectedDates[0];
+                if (selectedDate > now) {
+                    clubMBLink.disabled = true;
+                    clubMGLink.disabled = true;
+                    clubMBLink.value = '';
+                    clubMGLink.value = '';
+                } else {
+                    clubMBLink.disabled = false;
+                    clubMGLink.disabled = false;
+                }
+            }
         });
-
-        flatpickr("#timePicker", {
-          locale: 'ar',
-          enableTime: true,
-          noCalendar: true,
-          dateFormat: "H:i",
-          time_24hr: true,
-          minuteIncrement: 1,
-        });
-      });
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
-      crossorigin="anonymous"></script>
+    } else {
+        console.error("Couldn't find the date picker element.");
+    }
+});
+        </script>
+      
+   
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
 
 </body>
 
